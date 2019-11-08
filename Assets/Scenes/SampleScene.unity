@@ -295,12 +295,13 @@ MonoBehaviour:
   CameraSensitivity: 100
   Azerty: 1
   MoveSpeed: 10
+  AirMoveSpeed: 2
+  LandingStabilizationRate: 4
   JumpHeight: 1
   Gravity: -9.81
   GroundLayer:
     serializedVersion: 2
     m_Bits: 4294967295
-  _isGrounded: 0
   Camera: {fileID: 0}
   GroundCheck: {fileID: 437881830}
 --- !u!33 &690832195

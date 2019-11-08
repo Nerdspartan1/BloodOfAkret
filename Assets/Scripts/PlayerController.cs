@@ -11,14 +11,18 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Movement")]
 	public float MoveSpeed = 6f;
+	public float AirMoveSpeed = 2f;
+	public float LandingStabilizationRate = 0.5f;
 	public float JumpHeight;
 	public float Gravity;
 	public LayerMask GroundLayer;
 
 	private float _groundAltitudeAtJumpingLocation;
-	[SerializeField]
+
 	private bool _isGrounded;
 	private Vector3 _speed;
+	private Vector3 _momentum;
+	private float _movementControl = 1f;
 
 	private float _rotationY = 0F;
 
@@ -65,19 +69,31 @@ public class PlayerController : MonoBehaviour
 
 		// cap the max speed so that the player doesn't go faster diagonally
 		if (horizontalMovement.sqrMagnitude > 1f) horizontalMovement.Normalize();
-		_speed.x = horizontalMovement.x * MoveSpeed;
-		_speed.z = horizontalMovement.z * MoveSpeed;
 
-		if (_isGrounded && Input.GetButtonDown("Jump"))
+		if (_isGrounded)
 		{
-			_speed.y = Mathf.Sqrt(2 * -Gravity * JumpHeight);
+			_speed.x = (1f - _movementControl)*_momentum.x + _movementControl * (horizontalMovement.x * MoveSpeed);
+			_speed.z = (1f - _movementControl)*_momentum.z + _movementControl * (horizontalMovement.z * MoveSpeed);
+
+			if (_movementControl < 1)
+				_movementControl += LandingStabilizationRate * Time.deltaTime;
+			
+			if (_movementControl > 1)
+				_movementControl = 1f;
+
+			if (Input.GetButtonDown("Jump"))
+			{
+				_speed.y = Mathf.Sqrt(2 * -Gravity * JumpHeight);
+				_momentum = Vector3.ProjectOnPlane(_speed-_speed.normalized*AirMoveSpeed, Vector3.up);
+				_movementControl = 0f;
+			}
 		}
-
-		if (!_isGrounded)
+		else
+		{
+			_speed.x = _momentum.x + horizontalMovement.x * AirMoveSpeed;
+			_speed.z = _momentum.z + horizontalMovement.z * AirMoveSpeed;
 			_speed.y += Gravity * Time.deltaTime;
-
-		
-
+		}
 		
 		_controller.Move(_speed*Time.deltaTime);
 
@@ -94,5 +110,4 @@ public class PlayerController : MonoBehaviour
 		CameraSensitivity = sensitivity;
 		PlayerPrefs.SetFloat("sensitivity", sensitivity);
 	}
-
 }
