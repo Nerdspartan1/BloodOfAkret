@@ -5,64 +5,81 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	public float cameraSensitivity = 100f;
-
-    public float MoveSpeed = 6f;
-
-	private float rotationY = 0F;
-
+	[Header("Controls")]
+	public float CameraSensitivity = 100f;
 	public bool Azerty = false;
 
-	private float _confusedCameraAngle;
-	private float _timeConfused = 0f;
+	[Header("Movement")]
+	public float MoveSpeed = 6f;
+	public float JumpHeight;
+	public float Gravity;
+	public LayerMask GroundLayer;
+
+	private float _groundAltitudeAtJumpingLocation;
+	[SerializeField]
+	private bool _isGrounded;
+	private Vector3 _speed;
+
+	private float _rotationY = 0F;
+
 
     [HideInInspector]
 	public Camera Camera;
+	public GameObject GroundCheck;
 	
 	private CharacterController _controller;
-
-
-	private float _height;
 
 	private void Awake()
 	{
 		Camera = GetComponentInChildren<Camera>();
 
 		_controller = GetComponent<CharacterController>();
-		_height = transform.position.y;
-
 	}
 
 	void Update()
 	{
 		UpdateCameraRotation();
 		UpdateMovement();
-
-
-		if (_timeConfused > 0f) _timeConfused -= Time.deltaTime;
 	}
 
 	private void UpdateCameraRotation()
 	{
 		Cursor.lockState = CursorLockMode.Locked;
-		float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * cameraSensitivity * Time.deltaTime;
+		float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * CameraSensitivity * Time.deltaTime;
 
-		rotationY += Input.GetAxis("Mouse Y") * cameraSensitivity * Time.deltaTime;
-		rotationY = Mathf.Clamp(rotationY, -70f, +70f);
+		_rotationY += Input.GetAxis("Mouse Y") * CameraSensitivity * Time.deltaTime;
+		_rotationY = Mathf.Clamp(_rotationY, -70f, +70f);
 
 		transform.localEulerAngles = new Vector3(0, rotationX, 0);
-		Camera.transform.localEulerAngles = new Vector3(-rotationY, 0, _timeConfused > 0f ? _confusedCameraAngle : 0f);
+		Camera.transform.localEulerAngles = new Vector3(-_rotationY, 0, 0);
 	}
 
 	private void UpdateMovement()
 	{
+		_isGrounded = Physics.CheckSphere(GroundCheck.transform.position, 0.1f,GroundLayer);
+
 		float forwardInput = Azerty ? Input.GetAxis("VerticalAzerty") : Input.GetAxis("Vertical");
 		float lateralInput = Azerty ? Input.GetAxis("HorizontalAzerty") : Input.GetAxis("Horizontal");
 
-		Vector3 movement = transform.forward * forwardInput + transform.right * lateralInput;
+		Vector3 horizontalMovement = transform.forward * forwardInput + transform.right * lateralInput;
+
 		// cap the max speed so that the player doesn't go faster diagonally
-		if (movement.sqrMagnitude > 1f) movement.Normalize();
-		_controller.SimpleMove(movement * MoveSpeed);
+		if (horizontalMovement.sqrMagnitude > 1f) horizontalMovement.Normalize();
+		_speed.x = horizontalMovement.x * MoveSpeed;
+		_speed.z = horizontalMovement.z * MoveSpeed;
+
+		if (_isGrounded && Input.GetButtonDown("Jump"))
+		{
+			_speed.y = Mathf.Sqrt(2 * -Gravity * JumpHeight);
+		}
+
+		if (!_isGrounded)
+			_speed.y += Gravity * Time.deltaTime;
+
+		
+
+		
+		_controller.Move(_speed*Time.deltaTime);
 
 	}
 
@@ -74,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
 	public void SetSensitivity(float sensitivity)
 	{
-		cameraSensitivity = sensitivity;
+		CameraSensitivity = sensitivity;
 		PlayerPrefs.SetFloat("sensitivity", sensitivity);
 	}
 
