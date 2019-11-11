@@ -39,5 +39,6 @@ sysinfo.txt
 # FMOD
 Assets/FMOD/Resources/FMODStudioCache.asset
 Assets/FMOD/Resources/FMODStudioCache.asset.meta
+Assets/StreamingAssets/*.bank
 fmod.log
 fmod_editor.log
