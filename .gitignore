@@ -37,8 +37,8 @@ sysinfo.txt
 *.unitypackage
 
 # FMOD
-Assets/FMOD/Resources/FMODStudioCache.asset
-Assets/FMOD/Resources/FMODStudioCache.asset.meta
+Assets/Plugins/FMOD/Resources/FMODStudioCache.asset
+Assets/Plugins/FMOD/Resources/FMODStudioCache.asset.meta
 Assets/StreamingAssets/*.bank
 fmod.log
 fmod_editor.log
