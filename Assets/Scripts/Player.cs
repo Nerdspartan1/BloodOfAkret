@@ -11,7 +11,10 @@ public enum Perk
 public class Player : vp_PlayerDamageHandler
 {
 	private vp_FPController _controller;
+	private vp_PlayerInventory _inventory;
 	public List<Perk> Perks;
+
+	public vp_UnitType InfiniteAmmo;
 
 	private float _baseDamping;
 	private float _baseJumpForce;
@@ -21,6 +24,9 @@ public class Player : vp_PlayerDamageHandler
 		_controller = GetComponent<vp_FPController>();
 		_baseDamping = _controller.MotorDamping;
 		_baseJumpForce = _controller.MotorJumpForce;
+		_inventory = GetComponent<vp_PlayerInventory>();
+		_inventory.TryGiveUnits(InfiniteAmmo,int.MaxValue);
+
 	}
 
 	public void Update()
