@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	public static GameManager Instance;
+
 	public GameObject Player;
 	public GameObject IntroSpawnLocation;
 	public GameObject GameSpawnLocation;
@@ -12,7 +14,12 @@ public class GameManager : MonoBehaviour
 	public GameObject Intro;
 	public GameObject Game;
 
-    void Start()
+	private void Awake()
+	{
+		Instance = this;
+	}
+
+	void Start()
     {
 		Menu.SetActive(true);
 		Player.SetActive(false);

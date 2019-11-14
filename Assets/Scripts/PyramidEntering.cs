@@ -5,8 +5,9 @@ using UnityEngine;
 public class PyramidEntering : MonoBehaviour
 {
 	public GameObject Desert;
-	public Collider PlayerCollider;
+	public GameObject Player;
 	public GameObject Door;
+	public GameObject Pyramid;
 
 	public void Start()
 	{
@@ -15,10 +16,14 @@ public class PyramidEntering : MonoBehaviour
 
 	public void OnTriggerEnter(Collider other)
 	{
-		if(other == PlayerCollider)
+		if(other.gameObject == Player)
 		{
 			Desert.SetActive(false);
 			Door.SetActive(true);
+			Player.transform.SetParent(Pyramid.transform);
+			Pyramid.transform.position = Vector3.zero;
+			Player.transform.SetParent(null);
+			GameManager.Instance.Game.SetActive(true);
 		}
 	}
 
