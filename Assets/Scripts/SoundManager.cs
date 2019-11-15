@@ -5,13 +5,30 @@ using FMODUnity;
 
 public class SoundManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public static SoundManager sM;
+
+    [Header("Player Movement")]
+    [FMODUnity.EventRef]
+    public string footsteps;
+    [FMODUnity.EventRef]
+    public string jump;
+    
+    void Awake()
+    {
+        if (sM != null)
+        {
+            Destroy(this);
+        }
+        sM = this;
+    }
+
+
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
