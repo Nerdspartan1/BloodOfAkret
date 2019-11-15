@@ -12,7 +12,13 @@ public class SoundManager : MonoBehaviour
     public string footsteps;
     [FMODUnity.EventRef]
     public string jump;
-    
+
+    [Header("Ambience")]
+    [FMODUnity.EventRef]
+    public string sandstorm;
+    [FMODUnity.EventRef]
+    public string flames;
+
     void Awake()
     {
         if (sM != null)
