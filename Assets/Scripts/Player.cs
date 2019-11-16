@@ -29,9 +29,9 @@ public class Player : vp_FPPlayerDamageHandler
 
 	}
 
-	public void Update()
+	protected override void Update()
 	{
-		
+		base.Update();
 		if (Input.GetKeyDown(KeyCode.T)) PerkUp(Perk.DemonLegs);
 	}
 
