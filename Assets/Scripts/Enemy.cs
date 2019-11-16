@@ -8,6 +8,9 @@ public class Enemy : vp_DamageHandler
 {
 	public GameObject Target;
 	public GameObject Ragdoll;
+	public GameObject HitCast;
+	public float Range = 1f;
+	public GameObject Projectile;
 
 	private NavMeshAgent _nav;
 	private Animator _anim;
@@ -47,5 +50,18 @@ public class Enemy : vp_DamageHandler
 	void Update()
     {
 		if(Target) _nav.SetDestination(Target.transform.position);
+		if(Vector3.Distance(Target.transform.position,HitCast.transform.position) < Range)
+		{
+			_anim.SetTrigger("attack");
+			
+		}
     }
+
+	public void Hit()
+	{
+		Debug.Log("Hit!");
+		Instantiate(Projectile, HitCast.transform.position, Quaternion.LookRotation(HitCast.transform.forward), GameManager.Instance.Game.transform);
+		//UnityEditor.EditorApplication.isPaused = true;
+	}
+
 }
