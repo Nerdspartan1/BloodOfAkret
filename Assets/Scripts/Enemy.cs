@@ -40,6 +40,8 @@ public class Enemy : vp_DamageHandler
 		_nav.enabled = false;
 		_anim.enabled = false;
 		this.enabled = false;
+
+		WaveManager.Instance.EnemyDown();
 	}
 
 	void Update()
