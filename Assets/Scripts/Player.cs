@@ -8,7 +8,7 @@ public enum Perk
 	DemonLegs,
 }
 
-public class Player : vp_PlayerDamageHandler
+public class Player : vp_FPPlayerDamageHandler
 {
 	private vp_FPController _controller;
 	private vp_PlayerInventory _inventory;
@@ -31,6 +31,7 @@ public class Player : vp_PlayerDamageHandler
 
 	public void Update()
 	{
+		
 		if (Input.GetKeyDown(KeyCode.T)) PerkUp(Perk.DemonLegs);
 	}
 

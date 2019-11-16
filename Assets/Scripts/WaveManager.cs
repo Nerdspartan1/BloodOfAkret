@@ -8,7 +8,6 @@ public class WaveManager : MonoBehaviour
 
 	public List<GameObject> EnemySpawns;
 	public GameObject EnemyPrefab;
-	public GameObject Player;
 
 	private int _numberOfEnemiesAlive;
 	private int _wave = 0;
@@ -29,7 +28,7 @@ public class WaveManager : MonoBehaviour
 		for(int i=0; i<number; ++i)
 		{
 			Enemy enemy = Instantiate(EnemyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = Player;
+			enemy.Target = GameManager.Instance.Player;
 		}
 	}
 
