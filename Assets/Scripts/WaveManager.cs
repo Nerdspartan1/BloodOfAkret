@@ -1,14 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
 	public static WaveManager Instance;
+	private int _points;
+	public int Points {
+		get
+		{
+			return _points;
+		}
+		set
+		{
+			_points = value;
+			PointsText.text = $"{_points}";
+		}
+	}
 
 	public List<GameObject> EnemySpawns;
 	public GameObject EnemyPrefab;
 	public Shop Shop;
+	public Text PointsText;
 
 	private int _numberOfEnemiesAlive;
 	private int _wave = 0;
@@ -21,6 +35,7 @@ public class WaveManager : MonoBehaviour
 	void Start()
     {
 		Shop.gameObject.SetActive(false);
+		Points = 0;
 		StartNextWave();
     }
 
@@ -76,6 +91,9 @@ public class WaveManager : MonoBehaviour
 				break;
 			case 2:
 				Spawn(2);
+				break;
+			default:
+				Spawn(3);
 				break;
 		}
 	}

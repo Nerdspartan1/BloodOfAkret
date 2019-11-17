@@ -4,7 +4,7 @@ Shader "FX/Water (Basic)" {
 Properties {
 	_horizonColor ("Horizon color", COLOR)  = ( .172 , .463 , .435 , 0)
 	_WaveScale ("Wave scale", Range (0.02,0.15)) = .07
-	[NoScaleOffset] _ColorControl ("Reflective color (RGB) fresnel (A) ", 2D) = "" { }
+	[NoScaleOffset] _ColorControl ("Reflective color (RGB) fresnel (A) ", COLOR) = (1,1,1,1)
 	[NoScaleOffset] _BumpMap ("Waves Normalmap ", 2D) = "" { }
 	WaveSpeed ("Wave speed (map1 x,y; map2 x,y)", Vector) = (19,9,-16,-7)
 	}
@@ -71,7 +71,7 @@ CGPROGRAM
 
 
 sampler2D _BumpMap;
-sampler2D _ColorControl;
+float4 _ColorControl;
 
 half4 frag( v2f i ) : COLOR
 {
@@ -80,11 +80,13 @@ half4 frag( v2f i ) : COLOR
 	half3 bump = (bump1 + bump2) * 0.5;
 	
 	half fresnel = dot( i.viewDir, bump );
-	half4 water = tex2D( _ColorControl, float2(fresnel,fresnel) );
+	//half4 water = tex2D( _ColorControl, float2(fresnel,fresnel) );
 	
 	half4 col;
-	col.rgb = lerp( water.rgb, _horizonColor.rgb, water.a );
-	col.a = _horizonColor.a;
+	//col.rgb = lerp( water.rgb, _horizonColor.rgb, water.a );
+	//col.a = _horizonColor.a;
+
+	col.rgba = lerp(_ColorControl.rgba, _horizonColor.rgba, fresnel);
 
 	UNITY_APPLY_FOG(i.fogCoord, col);
 	return col;

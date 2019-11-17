@@ -6,11 +6,17 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : vp_DamageHandler
 {
+	[Header("References")]
 	public GameObject Target;
 	public GameObject Ragdoll;
 	public GameObject HitCast;
-	public float Range = 1f;
 	public GameObject Projectile;
+	public float Range = 1f;
+
+	[Header("Stats")]
+	public int Points;
+
+
 
 	private NavMeshAgent _nav;
 	private Animator _anim;
@@ -44,6 +50,8 @@ public class Enemy : vp_DamageHandler
 		_anim.enabled = false;
 		this.enabled = false;
 
+
+		WaveManager.Instance.Points += Points;
 		WaveManager.Instance.EnemyDown();
 	}
 

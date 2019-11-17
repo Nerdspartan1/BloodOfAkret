@@ -5,7 +5,7 @@ using FMODUnity;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager sM;
+    public static SoundManager Instance;
 
     [Header("Player Movement")]
     [FMODUnity.EventRef]
@@ -21,11 +21,11 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
-        if (sM != null)
+        if (Instance != null)
         {
             Destroy(this);
         }
-        sM = this;
+        Instance = this;
     }
 
 

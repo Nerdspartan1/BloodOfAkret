@@ -23,13 +23,21 @@ public class PerkCard : MonoBehaviour
 		Icon.sprite = Perk.Icon;
 		Description.text = Perk.Description;
 		_button = GetComponent<Button>();
-		_button.onClick.RemoveAllListeners();
-		_button.onClick.AddListener(PurchasePerk);
+		if (Perk.Price <= WaveManager.Instance.Points)
+		{
+			_button.onClick.RemoveAllListeners();
+			_button.onClick.AddListener(PurchasePerk);
+		}
+		else
+		{
+			_button.interactable = false;
+		}
 	}
 
 	public void PurchasePerk()
 	{
 		GameManager.Instance.Player.GetComponent<Player>().PerkUp(Perk);
+		WaveManager.Instance.Points -= Perk.Price;
 		WaveManager.Instance.CloseShop();
 		WaveManager.Instance.StartNextWave();
 	}

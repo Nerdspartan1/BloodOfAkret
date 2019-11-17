@@ -8,6 +8,9 @@ public class Shop : MonoBehaviour
 	[Header("Prefabs")]
 	public GameObject PerkCardPrefab;
 
+	[Header("References")]
+	public Transform ArrayPanel;
+
 	public List<Perk> UnlockedPerks;
 	public int MaxPerksForSale;
 
@@ -18,14 +21,14 @@ public class Shop : MonoBehaviour
 
 		int nbPerksForSale = Mathf.Min(MaxPerksForSale, randomPerks.Count);
 
-		foreach(Transform card in transform)
+		foreach(Transform card in ArrayPanel)
 		{
 			Destroy(card.gameObject);
 		}
 
 		for (int i = 0; i < nbPerksForSale; ++i)
 		{
-			PerkCard card = Instantiate(PerkCardPrefab, transform).GetComponent<PerkCard>();
+			PerkCard card = Instantiate(PerkCardPrefab, ArrayPanel).GetComponent<PerkCard>();
 			card.SetPerk(randomPerks[i]);
 		}
 	}

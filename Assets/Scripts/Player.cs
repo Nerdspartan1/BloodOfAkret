@@ -31,7 +31,7 @@ public class Player : vp_FPPlayerDamageHandler
 	protected override void Update()
 	{
 		base.Update();
-		//if (Input.GetKeyDown(KeyCode.T)) PerkUp(Perk.DemonLegs);
+		if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
 	}
 
 	public override void Die()
