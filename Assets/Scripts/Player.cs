@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public enum Perk
-{
-	DemonLegs,
-}
-
 public class Player : vp_FPPlayerDamageHandler
 {
 	private vp_FPController _controller;
@@ -36,7 +31,7 @@ public class Player : vp_FPPlayerDamageHandler
 	protected override void Update()
 	{
 		base.Update();
-		if (Input.GetKeyDown(KeyCode.T)) PerkUp(Perk.DemonLegs);
+		//if (Input.GetKeyDown(KeyCode.T)) PerkUp(Perk.DemonLegs);
 	}
 
 	public override void Die()
@@ -54,7 +49,7 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		Perks.Add(perk);
 
-		int dl = Perks.Count(p => p == Perk.DemonLegs);
+		int dl = Perks.Count(p => p.Name == "Demon Legs");
 		_controller.MotorDamping = _baseDamping*Mathf.Pow(1f-0.25f,dl);
 		_controller.MotorJumpForce = _baseJumpForce * Mathf.Pow(1.25f, dl);
 	}

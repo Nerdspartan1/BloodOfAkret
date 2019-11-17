@@ -8,6 +8,7 @@ public class WaveManager : MonoBehaviour
 
 	public List<GameObject> EnemySpawns;
 	public GameObject EnemyPrefab;
+	public Shop Shop;
 
 	private int _numberOfEnemiesAlive;
 	private int _wave = 0;
@@ -19,6 +20,7 @@ public class WaveManager : MonoBehaviour
 
 	void Start()
     {
+		Shop.gameObject.SetActive(false);
 		StartNextWave();
     }
 
@@ -38,8 +40,31 @@ public class WaveManager : MonoBehaviour
 
 		if(_numberOfEnemiesAlive == 0)
 		{
-			StartNextWave();
+			EndWave();
 		}
+	}
+
+	public void EndWave()
+	{
+		OpenShop();
+	}
+
+	public void OpenShop()
+	{
+		Shop.gameObject.SetActive(true);
+		Shop.PresentPerks();
+
+		GameManager.Instance.Player.GetComponent<vp_FPInput>().MouseCursorForced = true;	
+		GameManager.Instance.Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
+	}
+
+	public void CloseShop()
+	{
+		Shop.gameObject.SetActive(false);
+
+		GameManager.Instance.Player.GetComponent<vp_FPInput>().MouseCursorForced = false;
+		GameManager.Instance.Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	public void StartNextWave()
@@ -47,10 +72,10 @@ public class WaveManager : MonoBehaviour
 		switch (++_wave)
 		{
 			case 1:
-				Spawn(5);
+				Spawn(1);
 				break;
 			case 2:
-				Spawn(5);
+				Spawn(2);
 				break;
 		}
 	}
