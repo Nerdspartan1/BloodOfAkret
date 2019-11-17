@@ -59,7 +59,6 @@ public class Enemy : vp_DamageHandler
 
 	public void Hit()
 	{
-		Debug.Log("Hit!");
 		Instantiate(Projectile, HitCast.transform.position, Quaternion.LookRotation(HitCast.transform.forward), GameManager.Instance.Game.transform);
 		//UnityEditor.EditorApplication.isPaused = true;
 	}

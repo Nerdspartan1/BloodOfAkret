@@ -34,6 +34,7 @@
         {
 			float2 uv_MainTex;
 			float2 uv_NormalTex;
+			float2 uv_WaveTex;
         };
 
         half _Glossiness;
@@ -52,7 +53,7 @@
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = c.rgb;
-			o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex + _DistortIntensity*tex2D(_WaveTex, IN.uv_NormalTex + _Speed*_Time.yy)));
+			o.Normal = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex + _DistortIntensity*tex2D(_WaveTex, IN.uv_WaveTex + _Speed*_Time.yy)));
 
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;

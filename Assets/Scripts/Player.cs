@@ -12,9 +12,12 @@ public class Player : vp_FPPlayerDamageHandler
 {
 	private vp_FPController _controller;
 	private vp_PlayerInventory _inventory;
+	
 	public List<Perk> Perks;
 
 	public vp_UnitType InfiniteAmmo;
+	public Rigidbody Head;
+	public Camera FPSCamera;
 
 	private float _baseDamping;
 	private float _baseJumpForce;
@@ -26,6 +29,7 @@ public class Player : vp_FPPlayerDamageHandler
 		_baseJumpForce = _controller.MotorJumpForce;
 		_inventory = GetComponent<vp_PlayerInventory>();
 		_inventory.TryGiveUnits(InfiniteAmmo,int.MaxValue);
+		Head.isKinematic = true;
 
 	}
 
@@ -33,6 +37,16 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		base.Update();
 		if (Input.GetKeyDown(KeyCode.T)) PerkUp(Perk.DemonLegs);
+	}
+
+	public override void Die()
+	{
+		base.Die();
+		Head.transform.parent = null;
+		Head.transform.position = FPSCamera.transform.position;
+		Head.isKinematic = false;
+		FPSCamera.GetComponent<vp_FPCamera>().enabled = false;
+		FPSCamera.transform.parent = Head.transform;
 	}
 
 
