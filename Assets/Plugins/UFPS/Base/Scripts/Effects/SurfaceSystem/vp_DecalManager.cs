@@ -441,8 +441,8 @@ public class vp_DecalManager : MonoBehaviour
 			return false;
 
 		// TODO: 'Camera.main' may or may not work with VR
-		if(Vector3.Distance(Camera.main.transform.position, decal.transform.position) > Instance.QuadRaycastRange)
-			return false;
+		//if(Vector3.Distance(Camera.main.transform.position, decal.transform.position) > Instance.QuadRaycastRange)
+			//return false;
 
 		DoQuadTest(decal, cornerOverlap);
 

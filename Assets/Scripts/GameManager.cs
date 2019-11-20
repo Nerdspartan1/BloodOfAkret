@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 	public GameObject Intro;
 	public GameObject Game;
 
+	public Camera CurrentCamera;
+
 	private void Awake()
 	{
 		Instance = this;
