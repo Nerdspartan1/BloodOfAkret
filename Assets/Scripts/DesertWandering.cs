@@ -10,6 +10,8 @@ public class DesertWandering : MonoBehaviour
 	public GameObject Pyramid;
 	public GameObject Plane;
 
+	private Animator _anim;
+
 	public float DistanceToWanderToGetLost = 100f;
 	public float PyramidMovePeriod = 10f;
 	public float PyramidToPlayerMoveDistance = 100f;
@@ -22,6 +24,7 @@ public class DesertWandering : MonoBehaviour
     {
 		_time = 0f;
 		_lostInDesert = false;
+		_anim = GetComponent<Animator>();
     }
 
 	public void Update()
@@ -48,10 +51,24 @@ public class DesertWandering : MonoBehaviour
 		}
 	}
 
-
 	public void MovePyramidInFrontOfPlayer()
 	{
 		Pyramid.transform.position = Player.transform.position + Player.transform.forward * PyramidToPlayerMoveDistance;
 		Pyramid.transform.LookAt(Player.transform, Vector3.up);
+	}
+
+	public void PlayIntro()
+	{
+		_anim.SetTrigger("play");
+		Player.GetComponent<vp_FPController>().enabled = false;
+		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
+		Player.GetComponent<vp_FPInput>().enabled = false;
+	}
+
+	public void GiveControlToPlayer()
+	{
+		Player.GetComponent<vp_FPController>().enabled = true;
+		Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
+		Player.GetComponent<vp_FPInput>().enabled = true;
 	}
 }

@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 		Player.transform.position = IntroSpawnLocation.transform.position;
 		Intro.SetActive(true);
 		Player.SetActive(true);
+		Intro.GetComponent<DesertWandering>().PlayIntro();
 	}
 
 	public void StartGame()
