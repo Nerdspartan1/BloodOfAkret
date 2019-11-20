@@ -24,6 +24,8 @@ public class PyramidEntering : MonoBehaviour
 			Pyramid.transform.position = Vector3.zero;
 			Player.transform.SetParent(null);
 			GameManager.Instance.Game.SetActive(true);
+			Player.GetComponentInChildren<vp_Weapon>().SetState("Idle", false);
+			Player.GetComponentInChildren<vp_WeaponShooter>().enabled = true;
 		}
 	}
 

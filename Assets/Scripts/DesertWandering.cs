@@ -63,6 +63,8 @@ public class DesertWandering : MonoBehaviour
 		Player.GetComponent<vp_FPController>().enabled = false;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
 		Player.GetComponent<vp_FPInput>().enabled = false;
+		Player.GetComponent<vp_SimpleCrosshair>().enabled = false;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	public void GiveControlToPlayer()
@@ -70,5 +72,9 @@ public class DesertWandering : MonoBehaviour
 		Player.GetComponent<vp_FPController>().enabled = true;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
 		Player.GetComponent<vp_FPInput>().enabled = true;
+		Player.GetComponent<vp_SimpleCrosshair>().enabled = true;
+		Player.GetComponentInChildren<vp_Weapon>().SetState("Idle");
+		Player.GetComponentInChildren<vp_WeaponShooter>().enabled = false;
+
 	}
 }
