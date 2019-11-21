@@ -49,9 +49,30 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		Perks.Add(perk);
 
-		int dl = Perks.Count(p => p.Name == "Demon Legs");
-		_controller.MotorDamping = _baseDamping*Mathf.Pow(1f-0.25f,dl);
-		_controller.MotorJumpForce = _baseJumpForce * Mathf.Pow(1.25f, dl);
+		//Demon Legs
+		switch (perk.Name)
+		{
+			case "Grace of Bastet":
+				_controller.MotorDamping *= 0.75f;
+				break;
+			case "Feathers of Nemty":
+				_controller.MotorJumpForce *= 1.4f;
+				break;
+
+			case "Frenesy of Montu":
+				var shooters = GetComponentsInChildren<vp_FPWeaponShooter>();
+				foreach (var shooter in shooters)
+				{
+					shooter.ProjectileFiringRate *= 0.7f;
+					shooter.ProjectileTapFiringRate *= 0.7f;
+				}
+				break;
+
+		}
+		
+		
+
+
 	}
 
 
