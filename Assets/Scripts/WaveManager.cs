@@ -69,17 +69,14 @@ public class WaveManager : MonoBehaviour
 		Shop.gameObject.SetActive(true);
 		Shop.PresentPerks();
 
-		GameManager.Instance.Player.GetComponent<vp_FPInput>().MouseCursorForced = true;	
-		GameManager.Instance.Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
+		GameManager.Instance.FreeMouse();
 	}
 
 	public void CloseShop()
 	{
 		Shop.gameObject.SetActive(false);
 
-		GameManager.Instance.Player.GetComponent<vp_FPInput>().MouseCursorForced = false;
-		GameManager.Instance.Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
-		Cursor.lockState = CursorLockMode.Locked;
+		GameManager.Instance.LockMouse();
 	}
 
 	public void StartNextWave()

@@ -14,8 +14,13 @@ public class GameManager : MonoBehaviour
 	public GameObject Menu;
 	public GameObject Intro;
 	public GameObject Game;
+	public GameObject PauseMenu;
 
-	public Camera CurrentCamera;
+	private bool _isPaused;
+	private bool _mouseLocked = true;
+	private bool _mouseLockedInGame;
+
+	public bool CanPause = false;
 
 	private void Awake()
 	{
@@ -28,7 +33,17 @@ public class GameManager : MonoBehaviour
 		Player.SetActive(false);
 		Intro.SetActive(false);
 		Game.SetActive(false);
+		PauseMenu.SetActive(false);
     }
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.U) && CanPause)
+		{
+			if (!_isPaused) Pause();
+			else Unpause();
+		}
+	}
 
 	public void StartIntro()
 	{
@@ -47,11 +62,45 @@ public class GameManager : MonoBehaviour
 		Game.SetActive(true);
 		Player.SetActive(true);
 		Cursor.lockState = CursorLockMode.Locked;
+		CanPause = true;
 	}
 
 	public void ResetGame()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void Pause()
+	{
+		_isPaused = true;
+		Time.timeScale = 0.0f;
+		PauseMenu.SetActive(true);
+		_mouseLockedInGame = _mouseLocked;
+		FreeMouse();
+
+	}
+
+	public void Unpause()
+	{
+		_isPaused = false;
+		Time.timeScale = 1.0f;
+		PauseMenu.SetActive(false);
+		if (_mouseLockedInGame) LockMouse();
+	}
+
+	public void FreeMouse()
+	{
+		_mouseLocked = false;
+		Player.GetComponent<vp_FPInput>().MouseCursorForced = true;
+		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
+	}
+
+	public void LockMouse()
+	{
+		_mouseLocked = true;
+		Player.GetComponent<vp_FPInput>().MouseCursorForced = false;
+		Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 }

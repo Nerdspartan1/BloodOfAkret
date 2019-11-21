@@ -20,12 +20,12 @@ public class DesertWandering : MonoBehaviour
 	private float _time;
 	private bool _lostInDesert;
 
-	void Start()
-    {
+	private void Awake()
+	{
 		_time = 0f;
 		_lostInDesert = false;
 		_anim = GetComponent<Animator>();
-    }
+	}
 
 	public void Update()
 	{
@@ -74,6 +74,7 @@ public class DesertWandering : MonoBehaviour
 		Player.GetComponent<vp_SimpleCrosshair>().enabled = true;
 		Player.GetComponentInChildren<vp_Weapon>().SetState("Idle");
 		Player.GetComponentInChildren<vp_WeaponShooter>().enabled = false;
+		GameManager.Instance.CanPause = true;
 
 	}
 }
