@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
 		Intro.SetActive(true);
 		Player.SetActive(true);
 		Intro.GetComponent<DesertWandering>().PlayIntro();
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	public void StartGame()
@@ -44,5 +46,12 @@ public class GameManager : MonoBehaviour
 		Player.transform.position = GameSpawnLocation.transform.position;
 		Game.SetActive(true);
 		Player.SetActive(true);
+		Cursor.lockState = CursorLockMode.Locked;
 	}
+
+	public void ResetGame()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
 }

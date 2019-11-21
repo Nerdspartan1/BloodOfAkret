@@ -6,7 +6,9 @@ using System.Linq;
 public class Player : vp_FPPlayerDamageHandler
 {
 	private vp_FPController _controller;
+	private vp_FPInput _input;
 	private vp_PlayerInventory _inventory;
+	private vp_FPWeaponHandler _weaponHandler;
 	
 	public List<Perk> Perks;
 
@@ -14,12 +16,16 @@ public class Player : vp_FPPlayerDamageHandler
 	public Rigidbody Head;
 	public Camera FPSCamera;
 
+	public GameObject GameOverScreen;
+
 	private float _baseDamping;
 	private float _baseJumpForce;
 
 	private void Start()
 	{
 		_controller = GetComponent<vp_FPController>();
+		_input = GetComponent<vp_FPInput>();
+		_weaponHandler = GetComponent<vp_FPWeaponHandler>();
 		_baseDamping = _controller.MotorDamping;
 		_baseJumpForce = _controller.MotorJumpForce;
 		_inventory = GetComponent<vp_PlayerInventory>();
@@ -42,6 +48,11 @@ public class Player : vp_FPPlayerDamageHandler
 		Head.isKinematic = false;
 		FPSCamera.GetComponent<vp_FPCamera>().enabled = false;
 		FPSCamera.transform.parent = Head.transform;
+
+		_input.MouseCursorForced = true;
+		_weaponHandler.enabled = false;
+
+		GameOverScreen.SetActive(true);
 	}
 
 
@@ -49,7 +60,6 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		Perks.Add(perk);
 
-		//Demon Legs
 		switch (perk.Name)
 		{
 			case "Grace of Bastet":

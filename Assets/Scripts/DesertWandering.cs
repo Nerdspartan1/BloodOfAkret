@@ -64,7 +64,6 @@ public class DesertWandering : MonoBehaviour
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
 		Player.GetComponent<vp_FPInput>().enabled = false;
 		Player.GetComponent<vp_SimpleCrosshair>().enabled = false;
-		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	public void GiveControlToPlayer()
