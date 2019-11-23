@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
 		Intro.SetActive(false);
 		Game.SetActive(false);
 		PauseMenu.SetActive(false);
+		RenderSettings.fogDensity = 0.002f;
     }
 
 	private void Update()
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
 		Player.SetActive(true);
 		Intro.GetComponent<DesertWandering>().PlayIntro();
 		Cursor.lockState = CursorLockMode.Locked;
+		RenderSettings.fogDensity = 0.08f;
 	}
 
 	public void StartGame()
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
 		Player.SetActive(true);
 		Cursor.lockState = CursorLockMode.Locked;
 		CanPause = true;
+		RenderSettings.fogDensity = 0.08f;
 	}
 
 	public void ResetGame()
