@@ -13,11 +13,8 @@ CGINCLUDE
 
 #include "UnityCG.cginc"
 
-uniform float4 _horizonColor;
 
-uniform float4 WaveSpeed;
-uniform float _WaveScale;
-uniform float4 _WaveOffset;
+
 
 struct appdata {
 	float4 vertex : POSITION;
@@ -31,28 +28,8 @@ struct v2f {
 	UNITY_FOG_COORDS(3)
 };
 
-v2f vert(appdata v)
-{
-	v2f o;
-	float4 s;
 
-	o.pos = UnityObjectToClipPos(v.vertex);
 
-	// scroll bump waves
-	float4 temp;
-	float4 wpos = mul (unity_ObjectToWorld, v.vertex);
-	temp.xyzw = wpos.xzxz * _WaveScale + _WaveOffset;
-	o.bumpuv[0] = temp.xy * float2(.4, .45);
-	o.bumpuv[1] = temp.wz;
-
-	o.pos.y += o.bumpuv[0] * _SinTime.z;
-
-	// object space view direction
-	o.viewDir.xzy = normalize( WorldSpaceViewDir(v.vertex) );
-
-	UNITY_TRANSFER_FOG(o,o.pos);
-	return o;
-}
 
 ENDCG
 
@@ -69,9 +46,39 @@ CGPROGRAM
 #pragma fragment frag
 #pragma multi_compile_fog
 
+uniform float4 _horizonColor;
+
+uniform float4 WaveSpeed;
+uniform float _WaveScale;
+uniform float4 _WaveOffset;
 
 sampler2D _BumpMap;
 float4 _ColorControl;
+
+v2f vert(appdata v)
+{
+	v2f o;
+	float4 s;
+
+	o.pos = UnityObjectToClipPos(v.vertex);
+
+	// scroll bump waves
+	float4 temp;
+	float4 wpos = mul(unity_ObjectToWorld, v.vertex);
+	temp.xyzw = wpos.xzxz * _WaveScale + _WaveOffset;
+	o.bumpuv[0] = temp.xy * float2(.4, .45);
+	o.bumpuv[1] = temp.wz;
+
+	half disp = UnpackNormal(tex2Dlod(_BumpMap, (o.bumpuv[0],0,0))).r;
+
+	o.pos.y += disp * _SinTime.y;
+
+	// object space view direction
+	o.viewDir.xzy = normalize(WorldSpaceViewDir(v.vertex));
+
+	UNITY_TRANSFER_FOG(o, o.pos);
+	return o;
+}
 
 half4 frag( v2f i ) : COLOR
 {

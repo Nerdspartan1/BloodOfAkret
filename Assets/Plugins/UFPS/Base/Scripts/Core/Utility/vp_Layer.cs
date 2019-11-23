@@ -53,7 +53,7 @@ public sealed class vp_Layer
 		// layer mask for raycasting away from the local player, ignoring the player itself
 		// and all non-solid objects. (used for player physics)
 		public static int ExternalBlockers = ~((1 << LocalPlayer) | (1 << Debris) |
-								(1 << IgnoreRaycast) | (1 << Trigger) | (1 << RemotePlayer) | (1 << Ragdoll) | (1 << Water));
+								(1 << IgnoreRaycast) | (1 << Trigger) | (1 << RemotePlayer) | (1 << Ragdoll) | (1 << Water) | (1 << EnemyProjectiles));
 
 		// layer mask for detecting solid, moving objects. (used for spawn radius checking)
 		public static int PhysicsBlockers = (1 << vp_Layer.LocalPlayer) | (1 << vp_Layer.MovingPlatform) | (1 << vp_Layer.MovableObject);

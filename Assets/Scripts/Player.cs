@@ -9,6 +9,7 @@ public class Player : vp_FPPlayerDamageHandler
 	private vp_FPInput _input;
 	private vp_PlayerInventory _inventory;
 	private vp_FPWeaponHandler _weaponHandler;
+	private Collider _collider;
 	
 	public List<Perk> Perks;
 
@@ -24,6 +25,7 @@ public class Player : vp_FPPlayerDamageHandler
 	private void Start()
 	{
 		_controller = GetComponent<vp_FPController>();
+		_collider = GetComponent<Collider>();
 		_input = GetComponent<vp_FPInput>();
 		_weaponHandler = GetComponent<vp_FPWeaponHandler>();
 		_baseDamping = _controller.MotorDamping;
@@ -52,6 +54,7 @@ public class Player : vp_FPPlayerDamageHandler
 		_input.MouseCursorForced = true;
 		_weaponHandler.enabled = false;
 
+		_collider.enabled = false;
 		this.enabled = false;
 
 		GameOverScreen.SetActive(true);

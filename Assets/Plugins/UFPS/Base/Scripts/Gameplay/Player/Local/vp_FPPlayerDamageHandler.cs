@@ -143,7 +143,7 @@ public class vp_FPPlayerDamageHandler : vp_PlayerDamageHandler
 		// shake camera to left or right depending on direction of damage
 		if (damageInfo.Source != null)
 		{
-
+			if(FPCamera)
 			m_DamageAngle = vp_3DUtility.LookAtAngleHorizontal(
 				FPCamera.Transform.position,
 				FPCamera.Transform.forward,
