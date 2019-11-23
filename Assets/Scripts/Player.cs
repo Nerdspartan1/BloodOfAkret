@@ -52,6 +52,8 @@ public class Player : vp_FPPlayerDamageHandler
 		_input.MouseCursorForced = true;
 		_weaponHandler.enabled = false;
 
+		this.enabled = false;
+
 		GameOverScreen.SetActive(true);
 	}
 

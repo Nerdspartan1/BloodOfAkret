@@ -26,6 +26,9 @@ public sealed class vp_Layer
 	public const int IgnoreRaycast = 2;
 	public const int Water = 4;
 
+	// project layers
+	public const int EnemyProjectiles = 9;
+
 	// standard layers
 	public const int MovableObject = 21;	// used on movable physics objects to prevent spawning inside them
 	public const int Ragdoll = 22;			// used to prevent collision between controller capsule and its ragdoll bodyparts
@@ -45,7 +48,7 @@ public sealed class vp_Layer
 		// layer mask for raycasting away from the local player, ignoring the player itself
 		// and all non-solid objects, including rigidbody pickups (used for bullets)
 		public static int BulletBlockers = ~((1 << LocalPlayer) | (1 << Debris) |
-								(1 << IgnoreRaycast) | (1 << IgnoreBullets) | (1 << Trigger) | (1 << Water) | (1 << Pickup));
+								(1 << IgnoreRaycast) | (1 << IgnoreBullets) | (1 << Trigger) | (1 << Water) | (1 << Pickup) | (1 << EnemyProjectiles));
 
 		// layer mask for raycasting away from the local player, ignoring the player itself
 		// and all non-solid objects. (used for player physics)

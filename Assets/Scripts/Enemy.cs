@@ -67,8 +67,9 @@ public class Enemy : vp_DamageHandler
 
 	public void Hit()
 	{
-		Instantiate(Projectile, HitCast.transform.position, Quaternion.LookRotation(HitCast.transform.forward), GameManager.Instance.Game.transform);
-		//UnityEditor.EditorApplication.isPaused = true;
+		var proj = Instantiate(Projectile, HitCast.transform.position, Quaternion.LookRotation(HitCast.transform.forward), GameManager.Instance.Game.transform);
+		var fb = proj.GetComponent<Fireball>();
+		if (fb) fb.Target = Target;
 	}
 
 }
