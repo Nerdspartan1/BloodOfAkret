@@ -5,10 +5,10 @@
         _MainTex ("Texture", 2D) = "white" {}
 		_PatternTex("Pattern", 2D) = "white" {}
 		_Threshold("Threshold", Range(0,1)) = 0.3
-		_TWidth("Threshold width", Float) = 0.05
-		_STWidth("Secondary Threshold width", Float) = 0.01
-		_ThresholdColor("Threshold Color", Color) = (1,0.4,0.4,1)
-		_SThresholdColor("Secondary Threshold Color", Color) = (1,0.4,0.4,1)
+		_TWidth("Threshold width", Float) = 0.01
+		_STWidth("Secondary Threshold width", Float) = 0.05
+		_ThresholdColor("Threshold Color", Color) = (1,0.4,0,1)
+		_SThresholdColor("Secondary Threshold Color", Color) = (0.6,0.25,0,1)
     }
     SubShader
     {
@@ -41,7 +41,8 @@
 
             sampler2D _MainTex;
 			sampler2D _PatternTex;
-            float4 _MainTex_ST;
+
+			float4 _MainTex_ST;
 			float _Threshold;
 			float _TWidth;
 			float _STWidth;
@@ -52,7 +53,7 @@
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }

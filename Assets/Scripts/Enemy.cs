@@ -16,14 +16,17 @@ public class Enemy : vp_DamageHandler
 	[Header("Stats")]
 	public int Points;
 
-
+	public float RagdollLifeTime = 10f;
 
 	private NavMeshAgent _nav;
 	private Animator _anim;
 	private float _lastDamageTaken;
+	private Disintegrate _disintegrate;
 
-    void Start()
+	void Start()
     {
+		_disintegrate = GetComponent<Disintegrate>();
+		if (_disintegrate) _disintegrate.enabled = false;
 		_nav = GetComponent<NavMeshAgent>();
 		_anim = GetComponent<Animator>();
 		foreach (Rigidbody rb in Ragdoll.GetComponentsInChildren<Rigidbody>())
@@ -50,6 +53,9 @@ public class Enemy : vp_DamageHandler
 		_anim.enabled = false;
 		this.enabled = false;
 
+
+		if (_disintegrate) _disintegrate.enabled = true;
+		
 
 		WaveManager.Instance.Points += Points;
 		WaveManager.Instance.EnemyDown();
