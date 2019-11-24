@@ -17,6 +17,9 @@ public class Player : vp_FPPlayerDamageHandler
 	public Rigidbody Head;
 	public Camera FPSCamera;
 
+	public Camera WeaponCamera;
+	private int _nbOfCamera = 1;
+
 	public GameObject GameOverScreen;
 
 	private float _baseDamping;
@@ -24,6 +27,8 @@ public class Player : vp_FPPlayerDamageHandler
 
 	private void Start()
 	{
+
+
 		_controller = GetComponent<vp_FPController>();
 		_collider = GetComponent<Collider>();
 		_input = GetComponent<vp_FPInput>();
@@ -36,10 +41,36 @@ public class Player : vp_FPPlayerDamageHandler
 
 	}
 
+	public void AddMirroredCamera()
+	{
+		if (_nbOfCamera >= 4) return;
+
+		var camObj = new GameObject();
+		camObj.transform.parent = WeaponCamera.transform.parent;
+		camObj.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+		var cam = camObj.AddComponent<Camera>();
+		cam.enabled = true;
+		cam.CopyFrom(WeaponCamera);
+		switch (_nbOfCamera++)
+		{
+			case 1:
+				cam.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
+				break;
+			case 2:
+				cam.projectionMatrix *= Matrix4x4.Scale(new Vector3(1, -1, 1));
+				break;
+			case 3:
+				cam.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, -1, 1));
+				break;
+		}
+		
+	}
+
 	protected override void Update()
 	{
 		base.Update();
 		if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
+		if (Input.GetKeyDown(KeyCode.C)) AddMirroredCamera();
 	}
 
 	public override void Die()
@@ -65,6 +96,8 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		Perks.Add(perk);
 
+		var shooters = GetComponentsInChildren<vp_FPWeaponShooter>();
+
 		switch (perk.Name)
 		{
 			case "Grace of Bastet":
@@ -74,15 +107,22 @@ public class Player : vp_FPPlayerDamageHandler
 				_controller.MotorJumpForce *= 1.4f;
 				break;
 
-			case "Frenesy of Montu":
-				var shooters = GetComponentsInChildren<vp_FPWeaponShooter>();
+			case "Frenesy":
 				foreach (var shooter in shooters)
 				{
 					shooter.ProjectileFiringRate *= 0.7f;
 					shooter.ProjectileTapFiringRate *= 0.7f;
 				}
 				break;
-
+			case "Mirror of Ptah":
+				AddMirroredCamera();
+				foreach (var shooter in shooters)
+				{
+					shooter.ProjectileCount += 1;
+				}
+				break;
+			default:
+				throw new System.Exception("Perk not recognized");
 		}
 		
 		
