@@ -5,21 +5,28 @@ using UnityEngine;
 public class Fireball : MonoBehaviour
 {
 	public GameObject Target;
-	public float InitialSpeed = 4f;
-	public float HomingAcceleration = 1f;
+	public Vector2 InitialSpeed = new Vector2(4f, 4f);
+	public Vector2 HomingAcceleration = new Vector2(1, 2);
 	public float Damage = 1f;
 
+	public float LifeTime = 8f;
+
 	private Rigidbody _rb;
+	private float _acceleration;
 
     void Start()
     {
 		_rb = GetComponent<Rigidbody>();
-		_rb.velocity = InitialSpeed * transform.forward;
-    }
+		_rb.velocity = Random.Range(InitialSpeed.x, InitialSpeed.y) * transform.forward;
+		_acceleration = Random.Range(HomingAcceleration.x, HomingAcceleration.y);
+
+	}
 
     void Update()
     {
-		_rb.AddForce((Target.transform.position - transform.position).normalized * HomingAcceleration, ForceMode.Acceleration);
+		_rb.AddForce((Target.transform.position - transform.position).normalized * _acceleration, ForceMode.Acceleration);
+		LifeTime -= Time.deltaTime;
+		if (LifeTime < 0) Destroy(gameObject);
     }
 
 	private void OnCollisionEnter(Collision collision)
