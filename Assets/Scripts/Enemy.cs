@@ -20,11 +20,13 @@ public class Enemy : vp_DamageHandler
 
 	protected NavMeshAgent _nav;
 	protected Animator _anim;
+	private Collider _collider;
 	private float _lastDamageTaken;
 	private Disintegrate _disintegrate;
 
 	void Start()
     {
+		_collider = GetComponent<Collider>();
 		_disintegrate = GetComponent<Disintegrate>();
 		if (_disintegrate) _disintegrate.enabled = false;
 		_nav = GetComponent<NavMeshAgent>();
@@ -43,6 +45,7 @@ public class Enemy : vp_DamageHandler
 
 	public override void Die()
 	{
+		_collider.enabled = false;
 		Vector3 pushForce = 10f*(transform.position - Target.transform.position).normalized * _lastDamageTaken;
 		foreach (Rigidbody rb in Ragdoll.GetComponentsInChildren<Rigidbody>())
 		{

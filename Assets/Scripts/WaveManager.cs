@@ -22,6 +22,7 @@ public class WaveManager : MonoBehaviour
 	public List<GameObject> EnemySpawns;
 	public GameObject SkeletonPrefab;
 	public GameObject MummyPrefab;
+	public GameObject GolemPrefab;
 	public Shop Shop;
 	public Text PointsText;
 
@@ -40,9 +41,9 @@ public class WaveManager : MonoBehaviour
 		StartNextWave();
     }
 
-	public void Spawn(int skeletons, int mummies = 0)
+	public void Spawn(int skeletons, int mummies = 0, int golems = 0)
 	{
-		_numberOfEnemiesAlive = skeletons + mummies;
+		_numberOfEnemiesAlive = skeletons + mummies + golems;
 		for(int i=0; i < skeletons; ++i)
 		{
 			Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
@@ -51,6 +52,11 @@ public class WaveManager : MonoBehaviour
 		for (int i = 0; i < mummies; ++i)
 		{
 			Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
+			enemy.Target = GameManager.Instance.Player;
+		}
+		for (int i = 0; i < golems; ++i)
+		{
+			Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 			enemy.Target = GameManager.Instance.Player;
 		}
 	}
@@ -90,7 +96,7 @@ public class WaveManager : MonoBehaviour
 		switch (++_wave)
 		{
 			case 1:
-				Spawn(1);
+				Spawn(0,0,1);
 				break;
 			case 2:
 				Spawn(2,1);
