@@ -18,8 +18,8 @@ public class Enemy : vp_DamageHandler
 
 	public float RagdollLifeTime = 10f;
 
-	private NavMeshAgent _nav;
-	private Animator _anim;
+	protected NavMeshAgent _nav;
+	protected Animator _anim;
 	private float _lastDamageTaken;
 	private Disintegrate _disintegrate;
 
@@ -61,7 +61,7 @@ public class Enemy : vp_DamageHandler
 		WaveManager.Instance.EnemyDown();
 	}
 
-	void Update()
+	protected virtual void Update()
     {
 		if(Target) _nav.SetDestination(Target.transform.position);
 		if(Vector3.Distance(Target.transform.position,HitCast.transform.position) < Range)

@@ -20,7 +20,8 @@ public class WaveManager : MonoBehaviour
 	}
 
 	public List<GameObject> EnemySpawns;
-	public GameObject EnemyPrefab;
+	public GameObject SkeletonPrefab;
+	public GameObject MummyPrefab;
 	public Shop Shop;
 	public Text PointsText;
 
@@ -39,12 +40,17 @@ public class WaveManager : MonoBehaviour
 		StartNextWave();
     }
 
-	public void Spawn(int number)
+	public void Spawn(int skeletons, int mummies = 0)
 	{
-		_numberOfEnemiesAlive = number;
-		for(int i=0; i<number; ++i)
+		_numberOfEnemiesAlive = skeletons + mummies;
+		for(int i=0; i < skeletons; ++i)
 		{
-			Enemy enemy = Instantiate(EnemyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
+			Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
+			enemy.Target = GameManager.Instance.Player;
+		}
+		for (int i = 0; i < mummies; ++i)
+		{
+			Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 			enemy.Target = GameManager.Instance.Player;
 		}
 	}
@@ -87,10 +93,10 @@ public class WaveManager : MonoBehaviour
 				Spawn(1);
 				break;
 			case 2:
-				Spawn(2);
+				Spawn(2,1);
 				break;
 			default:
-				Spawn(3);
+				Spawn(3,2);
 				break;
 		}
 	}
