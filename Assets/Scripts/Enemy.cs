@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
 
 public class Enemy : vp_DamageHandler
 {
 	[Header("References")]
-	public GameObject Target;
+	public Player Target;
 	public GameObject Ragdoll;
 	public GameObject HitCast;
 	public GameObject Projectile;
+	public LookAtConstraint Head;
 	public float Range = 1f;
 
 	[Header("Stats")]
@@ -25,6 +27,7 @@ public class Enemy : vp_DamageHandler
 
 	protected virtual void Start()
     {
+		if(Head) Head.AddSource(new ConstraintSource() { sourceTransform = GameManager.Instance.Player.transform, weight = 1});
 		_collider = GetComponent<Collider>();
 		_disintegrate = GetComponent<Disintegrate>();
 		if (_disintegrate) _disintegrate.enabled = false;
@@ -54,7 +57,7 @@ public class Enemy : vp_DamageHandler
 		if(_nav) _nav.enabled = false;
 		_anim.enabled = false;
 		this.enabled = false;
-
+		if (Head) Head.enabled = false;
 
 		if (_disintegrate) _disintegrate.enabled = true;
 		
@@ -70,9 +73,9 @@ public class Enemy : vp_DamageHandler
 
 	public void Hit()
 	{
-		var proj = Instantiate(Projectile, HitCast.transform.position, Quaternion.LookRotation(HitCast.transform.forward), GameManager.Instance.Game.transform);
+		var proj = Instantiate(Projectile, HitCast.transform.position, Quaternion.LookRotation(Target.FPSCamera.transform.position - HitCast.transform.position), GameManager.Instance.Game.transform);
 		var fb = proj.GetComponent<Fireball>();
-		if (fb) fb.Target = Target;
+		if (fb) fb.Target = Target.gameObject;
 	}
 
 }

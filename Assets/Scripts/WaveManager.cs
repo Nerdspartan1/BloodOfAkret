@@ -43,21 +43,22 @@ public class WaveManager : MonoBehaviour
 
 	public void Spawn(int skeletons, int mummies = 0, int golems = 0)
 	{
+		Player player = GameManager.Instance.Player.GetComponent<Player>();
 		_numberOfEnemiesAlive = skeletons + mummies + golems;
 		for(int i=0; i < skeletons; ++i)
 		{
 			Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = GameManager.Instance.Player;
+			enemy.Target = player;
 		}
 		for (int i = 0; i < mummies; ++i)
 		{
 			Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = GameManager.Instance.Player;
+			enemy.Target = player;
 		}
 		for (int i = 0; i < golems; ++i)
 		{
 			Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = GameManager.Instance.Player;
+			enemy.Target = player;
 		}
 	}
 

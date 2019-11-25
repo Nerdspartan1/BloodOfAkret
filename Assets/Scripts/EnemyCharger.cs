@@ -18,6 +18,7 @@ public class EnemyCharger : Enemy
     {
 		if (!_charging)
 		{
+			_anim.SetFloat("speed", _nav.velocity.magnitude);
 			if (Target) _nav.SetDestination(Target.transform.position);
 
 			float distance = Vector3.Distance(Target.transform.position, HitCast.transform.position);
