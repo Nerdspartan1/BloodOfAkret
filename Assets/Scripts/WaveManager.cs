@@ -96,13 +96,13 @@ public class WaveManager : MonoBehaviour
 		switch (++_wave)
 		{
 			case 1:
-				Spawn(0,0,1);
+				Spawn(3);
 				break;
 			case 2:
 				Spawn(2,1);
 				break;
 			default:
-				Spawn(3,2);
+				Spawn(3,2,1);
 				break;
 		}
 	}

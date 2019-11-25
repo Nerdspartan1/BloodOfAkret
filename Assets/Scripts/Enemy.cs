@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : vp_DamageHandler
 {
 	[Header("References")]
@@ -24,7 +23,7 @@ public class Enemy : vp_DamageHandler
 	private float _lastDamageTaken;
 	private Disintegrate _disintegrate;
 
-	void Start()
+	protected virtual void Start()
     {
 		_collider = GetComponent<Collider>();
 		_disintegrate = GetComponent<Disintegrate>();
@@ -52,7 +51,7 @@ public class Enemy : vp_DamageHandler
 			rb.isKinematic = false;
 			rb.AddForce(pushForce,ForceMode.Impulse);
 		}
-		_nav.enabled = false;
+		if(_nav) _nav.enabled = false;
 		_anim.enabled = false;
 		this.enabled = false;
 
@@ -65,14 +64,9 @@ public class Enemy : vp_DamageHandler
 	}
 
 	protected virtual void Update()
-    {
-		if(Target) _nav.SetDestination(Target.transform.position);
-		if(Vector3.Distance(Target.transform.position,HitCast.transform.position) < Range)
-		{
-			_anim.SetTrigger("attack");
-			
-		}
-    }
+	{
+
+	}
 
 	public void Hit()
 	{

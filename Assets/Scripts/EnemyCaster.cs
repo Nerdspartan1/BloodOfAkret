@@ -35,6 +35,6 @@ public class EnemyCaster : Enemy
 			var proj = Instantiate(CastProjectile, HitCast.transform.position, Quaternion.LookRotation(0.5f * Vector3.up +  Random.onUnitSphere) , GameManager.Instance.Game.transform).GetComponent<Fireball>();
 			proj.Target = Target.GetComponent<Player>().FPSCamera.gameObject;
 		}
-		_nav.isStopped = false;
+		if(_nav) _nav.isStopped = false;
 	}
 }
