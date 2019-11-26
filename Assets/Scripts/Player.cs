@@ -100,18 +100,21 @@ public class Player : vp_FPPlayerDamageHandler
 
 		switch (perk.Name)
 		{
+			case "Heal":
+				CurrentHealth = MaxHealth;
+				break;
 			case "Grace of Bastet":
-				_controller.MotorDamping *= 0.75f;
+				_controller.MotorDamping *= 0.90f;
 				break;
 			case "Feathers of Nemty":
-				_controller.MotorJumpForce *= 1.4f;
+				_controller.MotorJumpForce *= 1.40f;
 				break;
 
 			case "Frenesy":
 				foreach (var shooter in shooters)
 				{
-					shooter.ProjectileFiringRate *= 0.7f;
-					shooter.ProjectileTapFiringRate *= 0.7f;
+					shooter.ProjectileFiringRate *= 0.85f;
+					shooter.ProjectileTapFiringRate *= 0.85f;
 				}
 				break;
 			case "Mirror of Ptah":

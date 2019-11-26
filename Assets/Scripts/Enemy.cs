@@ -63,7 +63,7 @@ public class Enemy : vp_DamageHandler
 		
 
 		WaveManager.Instance.Points += Points;
-		WaveManager.Instance.EnemyDown();
+		WaveManager.Instance.EnemyDown(this);
 	}
 
 	protected virtual void Update()

@@ -26,10 +26,25 @@ public class WaveManager : MonoBehaviour
 	public Shop Shop;
 	public Text PointsText;
 
+	private Player _player;
+
 	public Animator WaveAnnouncer;
 
 	public float WaveEndDelay = 3f;
 	public float WaveStartDelay = 4f;
+
+	public int MaxSkeletons = 5;
+	public int MaxMummies = 1;
+	public int MaxGolems = 1;
+
+	private int _currentSkeletons;
+	private int _currentMummies;
+	private int _currentGolems;
+
+	private int _remainingSkeletons;
+	private int _remainingMummies;
+	private int _remainingGolems;
+
 
 	private int _numberOfEnemiesAlive;
 	private int _wave = 0;
@@ -41,6 +56,7 @@ public class WaveManager : MonoBehaviour
 
 	void Start()
     {
+		_player = GameManager.Instance.Player.GetComponent<Player>();
 		Shop.gameObject.SetActive(false);
 		Points = 0;
     }
@@ -50,32 +66,52 @@ public class WaveManager : MonoBehaviour
 		StartCoroutine(StartNextWave());
 	}
 
-	public void Spawn(int skeletons, int mummies = 0, int golems = 0)
+	public void SpawnWave(int skeletons, int mummies, int golems)
 	{
-		Player player = GameManager.Instance.Player.GetComponent<Player>();
-		_numberOfEnemiesAlive = skeletons + mummies + golems;
-		for(int i=0; i < skeletons; ++i)
-		{
-			Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = player;
-		}
-		for (int i = 0; i < mummies; ++i)
-		{
-			Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = player;
-		}
-		for (int i = 0; i < golems; ++i)
-		{
-			Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
-			enemy.Target = player;
-		}
+		_remainingSkeletons = skeletons;
+		_remainingMummies = mummies;
+		_remainingGolems = golems;
+		for (int i = 0; i < Mathf.Min(skeletons,MaxSkeletons); i++) SpawnSkeleton();
+		for (int i = 0; i < Mathf.Min(mummies,MaxMummies); i++) SpawnMummy();
+		for (int i = 0; i < Mathf.Min(golems,MaxGolems); i++) SpawnGolem();
+
 	}
 
-	public void EnemyDown()
+	public void SpawnSkeleton()
 	{
-		_numberOfEnemiesAlive--;
+		Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
+		enemy.Target = _player;
+	}
 
-		if(_numberOfEnemiesAlive == 0)
+	public void SpawnMummy()
+	{
+		Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
+		enemy.Target = _player;
+	}
+
+	public void SpawnGolem()
+	{
+		Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
+		enemy.Target = _player;
+	}
+
+
+	public void EnemyDown(Enemy who)
+	{
+		if (who is EnemyHarasser)
+		{
+			if (_remainingSkeletons-- > MaxSkeletons) SpawnSkeleton();
+		}
+		else if (who is EnemyCharger)
+		{
+			if (_remainingMummies-- > MaxMummies) SpawnMummy();
+		}
+		else if (who is EnemyCaster)
+		{
+			if (_remainingGolems-- > MaxGolems) SpawnGolem();
+		}
+
+		if (_remainingGolems + _remainingMummies + _remainingSkeletons == 0)
 		{
 			StartCoroutine(EndWave());
 		}
@@ -115,13 +151,13 @@ public class WaveManager : MonoBehaviour
 		switch (_wave)
 		{
 			case 1:
-				Spawn(3);
+				SpawnWave(5, 0, 0);
 				break;
 			case 2:
-				Spawn(2,1);
+				SpawnWave(10, 0, 0);
 				break;
 			default:
-				Spawn(3,2,1);
+				SpawnWave(12, 2, 0);
 				break;
 		}
 	}

@@ -15,6 +15,11 @@ public class PerkCard : MonoBehaviour
 	private Button _button;
 
 
+	public void Start()
+	{
+		if (Perk) SetPerk(Perk);
+	}
+
 	public void SetPerk(Perk perk)
 	{
 		Perk = perk;
