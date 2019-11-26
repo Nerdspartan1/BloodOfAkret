@@ -29,8 +29,11 @@ public class DesertWandering : MonoBehaviour
 		_lostInDesert = false;
 		_anim = GetComponent<Animator>();
 
-        sandstormEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.sandstorm);
+	}
 
+	private void Start()
+	{
+		sandstormEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.sandstorm);
 	}
 
 	public void Update()
