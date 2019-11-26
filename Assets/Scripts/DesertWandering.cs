@@ -31,11 +31,6 @@ public class DesertWandering : MonoBehaviour
 
 	}
 
-	private void Start()
-	{
-		sandstormEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.sandstorm);
-	}
-
 	public void Update()
 	{
 		Sandstorm.transform.position = Player.transform.position + new Vector3(0, 3, -10);
@@ -68,7 +63,8 @@ public class DesertWandering : MonoBehaviour
 
 	public void PlayIntro()
 	{
-        FMODUnity.RuntimeManager.PlayOneShot(SoundManager.sm.plane);
+		sandstormEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.sandstorm);
+		FMODUnity.RuntimeManager.PlayOneShot(SoundManager.sm.plane);
         
 		_anim.SetTrigger("play");
 		Player.GetComponent<vp_FPController>().enabled = false;
@@ -86,8 +82,12 @@ public class DesertWandering : MonoBehaviour
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
 		Player.GetComponent<vp_FPInput>().enabled = true;
 		Player.GetComponent<vp_SimpleCrosshair>().enabled = true;
-		Player.GetComponentInChildren<vp_Weapon>().SetState("Idle");
-		Player.GetComponentInChildren<vp_WeaponShooter>().enabled = false;
+		foreach(var weapon in Player.GetComponentsInChildren<vp_Weapon>())
+		{
+			weapon.SetState("Idle");
+			weapon.GetComponent<vp_WeaponShooter>().enabled = false;
+		}
+		
 		GameManager.Instance.CanPause = true;
 
 	}

@@ -9,7 +9,9 @@ public class PyramidEntering : MonoBehaviour
 	public GameObject Door;
 	public GameObject Pyramid;
 
-    public GameObject StopSandstormEvent;
+    
+
+	private bool _playerInPyramid = false;
 
 	public void Start()
 	{
@@ -18,23 +20,40 @@ public class PyramidEntering : MonoBehaviour
 
 	public void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject == Player)
+		if(!_playerInPyramid && other.gameObject == Player)
 		{
-            
-
-            StopSandstormEvent.GetComponent<DesertWandering>().sandstormEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            StopSandstormEvent.GetComponent<DesertWandering>().sandstormEvent.release();
+			var desertWandering = GameManager.Instance.Intro.GetComponent<DesertWandering>();
+            desertWandering.sandstormEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            desertWandering.sandstormEvent.release();
 
 
             Desert.SetActive(false);
 			Door.SetActive(true);
 			Player.transform.SetParent(Pyramid.transform);
-			Pyramid.transform.position = Vector3.zero;
+			Pyramid.transform.position = new Vector3(0f,4f,0f);
 			Player.transform.SetParent(null);
 			GameManager.Instance.Game.SetActive(true);
-			Player.GetComponentInChildren<vp_Weapon>().SetState("Idle", false);
-			Player.GetComponentInChildren<vp_WeaponShooter>().enabled = true;
+
+
+			_playerInPyramid = true;
 		}
+	}
+
+	public void Update()
+	{
+		//if player drops into arena
+		if (_playerInPyramid && Player.transform.position.y < -40f)
+		{
+			foreach (var weapon in Player.GetComponentsInChildren<vp_Weapon>())
+			{
+				weapon.SetState("Idle", false);
+				weapon.GetComponent<vp_WeaponShooter>().enabled = true;
+			}
+			GameManager.Instance.Game.GetComponent<WaveManager>().StartGame();
+			GameManager.Instance.Intro.SetActive(false);
+		}
+		
+		
 	}
 
 }
