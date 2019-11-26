@@ -9,6 +9,8 @@ public class PyramidEntering : MonoBehaviour
 	public GameObject Door;
 	public GameObject Pyramid;
 
+    public GameObject StopSandstormEvent;
+
 	public void Start()
 	{
 		Door.SetActive(false);
@@ -18,7 +20,13 @@ public class PyramidEntering : MonoBehaviour
 	{
 		if(other.gameObject == Player)
 		{
-			Desert.SetActive(false);
+            
+
+            StopSandstormEvent.GetComponent<DesertWandering>().sandstormEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            StopSandstormEvent.GetComponent<DesertWandering>().sandstormEvent.release();
+
+
+            Desert.SetActive(false);
 			Door.SetActive(true);
 			Player.transform.SetParent(Pyramid.transform);
 			Pyramid.transform.position = Vector3.zero;

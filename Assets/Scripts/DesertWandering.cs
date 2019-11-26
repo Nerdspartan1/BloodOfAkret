@@ -20,11 +20,17 @@ public class DesertWandering : MonoBehaviour
 	private float _time;
 	private bool _lostInDesert;
 
+    public FMOD.Studio.EventInstance sandstormEvent;
+
+
 	private void Awake()
 	{
 		_time = 0f;
 		_lostInDesert = false;
 		_anim = GetComponent<Animator>();
+
+        sandstormEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.sandstorm);
+
 	}
 
 	public void Update()
@@ -59,6 +65,8 @@ public class DesertWandering : MonoBehaviour
 
 	public void PlayIntro()
 	{
+        FMODUnity.RuntimeManager.PlayOneShot(SoundManager.sm.plane);
+        
 		_anim.SetTrigger("play");
 		Player.GetComponent<vp_FPController>().enabled = false;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
@@ -68,6 +76,9 @@ public class DesertWandering : MonoBehaviour
 
 	public void GiveControlToPlayer()
 	{
+
+        sandstormEvent.start();
+
 		Player.GetComponent<vp_FPController>().enabled = true;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
 		Player.GetComponent<vp_FPInput>().enabled = true;
