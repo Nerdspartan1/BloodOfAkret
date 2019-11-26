@@ -39,6 +39,5 @@ public class PerkCard : MonoBehaviour
 		GameManager.Instance.Player.GetComponent<Player>().PerkUp(Perk);
 		WaveManager.Instance.Points -= Perk.Price;
 		WaveManager.Instance.CloseShop();
-		WaveManager.Instance.StartNextWave();
 	}
 }

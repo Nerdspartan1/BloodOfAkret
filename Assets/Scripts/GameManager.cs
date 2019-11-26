@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		CanPause = true;
 		RenderSettings.fogDensity = 0.08f;
+		Game.GetComponent<WaveManager>().StartGame();
 	}
 
 	public void ResetGame()

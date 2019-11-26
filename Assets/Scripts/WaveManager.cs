@@ -26,6 +26,11 @@ public class WaveManager : MonoBehaviour
 	public Shop Shop;
 	public Text PointsText;
 
+	public Animator WaveAnnouncer;
+
+	public float WaveEndDelay = 3f;
+	public float WaveStartDelay = 4f;
+
 	private int _numberOfEnemiesAlive;
 	private int _wave = 0;
 
@@ -38,8 +43,12 @@ public class WaveManager : MonoBehaviour
     {
 		Shop.gameObject.SetActive(false);
 		Points = 0;
-		StartNextWave();
     }
+
+	public void StartGame()
+	{
+		StartCoroutine(StartNextWave());
+	}
 
 	public void Spawn(int skeletons, int mummies = 0, int golems = 0)
 	{
@@ -68,12 +77,14 @@ public class WaveManager : MonoBehaviour
 
 		if(_numberOfEnemiesAlive == 0)
 		{
-			EndWave();
+			StartCoroutine(EndWave());
 		}
 	}
 
-	public void EndWave()
+	public IEnumerator EndWave()
 	{
+		yield return new WaitForSeconds(WaveEndDelay);
+
 		OpenShop();
 	}
 
@@ -90,11 +101,18 @@ public class WaveManager : MonoBehaviour
 		Shop.gameObject.SetActive(false);
 
 		GameManager.Instance.LockMouse();
+
+		StartCoroutine(StartNextWave());
 	}
 
-	public void StartNextWave()
+	public IEnumerator StartNextWave()
 	{
-		switch (++_wave)
+		WaveAnnouncer.SetTrigger("startWave");
+		WaveAnnouncer.gameObject.GetComponentInChildren<Text>().text = $"Wave {++_wave}";
+
+		yield return new WaitForSeconds(WaveStartDelay);
+
+		switch (_wave)
 		{
 			case 1:
 				Spawn(3);
