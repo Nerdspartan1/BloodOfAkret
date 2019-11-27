@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
 		_mouseLocked = false;
 		Player.GetComponent<vp_FPInput>().MouseCursorForced = true;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;
+		Cursor.visible = true;
 	}
 
 	public void LockMouse()
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviour
 		Player.GetComponent<vp_FPInput>().MouseCursorForced = false;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = true;
 		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 }
