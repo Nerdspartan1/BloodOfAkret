@@ -14,22 +14,52 @@ public class Shop : MonoBehaviour
 	public List<Perk> UnlockedPerks;
 	public int MaxPerksForSale;
 
+	[Range(0, 1)]
+	public float CommonProbability = 1;
+	[Range(0, 1)]
+	public float UncommonProbability;
+	[Range(0, 1)]
+	public float RareProbability;
+	[Range(0, 1)]
+	public float LegendaryProbability;
+
 	public void PresentPerks()
 	{
 		List<Perk> randomPerks = new List<Perk>(UnlockedPerks);
 		randomPerks.RandomizeList();
-
-		int nbPerksForSale = Mathf.Min(MaxPerksForSale, randomPerks.Count);
 
 		foreach(Transform card in ArrayPanel)
 		{
 			Destroy(card.gameObject);
 		}
 
-		for (int i = 0; i < nbPerksForSale; ++i)
+		int nbPerksForSale = Mathf.Min(MaxPerksForSale, randomPerks.Count);
+
+		int perksChosen = 0;
+
+		int i = 0;
+		while(perksChosen < nbPerksForSale)
 		{
-			PerkCard card = Instantiate(PerkCardPrefab, ArrayPanel).GetComponent<PerkCard>();
-			card.SetPerk(randomPerks[i]);
+			Perk perk = randomPerks[i % randomPerks.Count];
+			float p=1;
+			switch (perk.Rarity)
+			{
+				case PerkRarity.Common: p = CommonProbability; break;
+				case PerkRarity.Uncommon:  p = UncommonProbability; break;
+				case PerkRarity.Rare: p = RareProbability; break;
+				case PerkRarity.Legendary: p = LegendaryProbability; break;
+			}
+
+			if(Random.value < p)
+			{
+				PerkCard card = Instantiate(PerkCardPrefab, ArrayPanel).GetComponent<PerkCard>();
+				card.SetPerk(perk);
+				perksChosen++;
+				randomPerks.Remove(perk);
+			}
+
+			if (++i > 100000) break;
 		}
+
 	}
 }

@@ -108,20 +108,29 @@ public class Player : vp_FPPlayerDamageHandler
 		switch (perk.Name)
 		{
 			case "Heal":
+				MaxHealth += 2;
 				CurrentHealth = MaxHealth;
 				break;
 			case "Grace of Bastet":
-				_controller.MotorDamping *= 0.90f;
+				_controller.MotorDamping *= 0.80f;
+				_controller.MotorJumpForce *= 1.20f;
 				break;
-			case "Feathers of Nemty":
-				_controller.MotorJumpForce *= 1.40f;
+			case "Grace of Bastet II":
+				_controller.MotorDamping *= 0.50f;
+				_controller.MotorJumpForce *= 1.50f;
 				break;
-
 			case "Frenesy":
 				foreach (var shooter in shooters)
 				{
-					shooter.ProjectileFiringRate *= 0.85f;
-					shooter.ProjectileTapFiringRate *= 0.85f;
+					shooter.ProjectileFiringRate *= 0.90f;
+					shooter.ProjectileTapFiringRate *= 0.90f;
+				}
+				break;
+			case "Frenesy II":
+				foreach (var shooter in shooters)
+				{
+					shooter.ProjectileFiringRate *= 0.78f;
+					shooter.ProjectileTapFiringRate *= 0.78f;
 				}
 				break;
 			case "Mirror of Ptah":
@@ -141,6 +150,18 @@ public class Player : vp_FPPlayerDamageHandler
 				else
 				{
 					_inventory.SetUnitCount(RifleAmmo, 8 * Rifle.Capacity);
+				}
+				break;
+			case "Weapon II":
+				if (!_hasMachinegun)
+				{
+					_inventory.TryGiveUnitBank(Machinegun, Rifle.Capacity, 0);
+					_inventory.TryGiveUnits(MachinegunAmmo, 3 * Machinegun.Capacity);
+					_hasMachinegun = true;
+				}
+				else
+				{
+					_inventory.SetUnitCount(MachinegunAmmo, 3 * Machinegun.Capacity);
 				}
 				break;
 			default:
