@@ -151,7 +151,7 @@ public class WaveManager : MonoBehaviour
 		switch (_wave)
 		{
 			case 1:
-				SpawnWave(1, 0, 0);
+				SpawnWave(1, 1, 1);
 				break;
 			case 2:
 				SpawnWave(0, 1, 0);

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SoundAnimPlayer : MonoBehaviour
 {
-    public GameObject Skeleton;
+    private bool _isMummy = false;
 
-    void Start()
+    private void Start()
     {
-        
+        if (GetComponent<EnemyCharger>()) _isMummy = true;
     }
 
     void Update()
@@ -18,8 +18,16 @@ public class SoundAnimPlayer : MonoBehaviour
 
     void PlaySkelWarrMov()
     {
-        //FMODUnity.RuntimeManager.PlayOneShot(SoundManager.sm.skelwarrmov);
-        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrmov, Skeleton);
+        if (_isMummy)
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummywarrmov, this.gameObject);
+        }
+        else
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrmov, this.gameObject);
+        }
+       
+        
     }
 
 }
