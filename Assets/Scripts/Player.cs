@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Player : vp_FPPlayerDamageHandler
 {
@@ -28,6 +29,7 @@ public class Player : vp_FPPlayerDamageHandler
 	private int _nbOfCamera = 1;
 
 	public GameObject GameOverScreen;
+	public Text HealthCounter;
 
 	private float _baseDamping;
 	private float _baseJumpForce;
@@ -78,6 +80,8 @@ public class Player : vp_FPPlayerDamageHandler
 		base.Update();
 		if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
 		if (Input.GetKeyDown(KeyCode.C)) AddMirroredCamera();
+
+		HealthCounter.text = $"{CurrentHealth}";
 	}
 
 	public override void Die()
@@ -112,12 +116,12 @@ public class Player : vp_FPPlayerDamageHandler
 				CurrentHealth = MaxHealth;
 				break;
 			case "Grace of Bastet":
-				_controller.MotorDamping *= 0.80f;
-				_controller.MotorJumpForce *= 1.20f;
+				_controller.MotorDamping *= 0.90f;
+				_controller.MotorJumpForce *= 1.10f;
 				break;
 			case "Grace of Bastet II":
-				_controller.MotorDamping *= 0.50f;
-				_controller.MotorJumpForce *= 1.50f;
+				_controller.MotorDamping *= 0.750f;
+				_controller.MotorJumpForce *= 1.25f;
 				break;
 			case "Frenesy":
 				foreach (var shooter in shooters)

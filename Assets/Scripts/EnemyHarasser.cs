@@ -8,8 +8,10 @@ public class EnemyHarasser : Enemy
 	public Vector2 HarassDistanceRandomRange = new Vector2(4f, 10f);
 
 	public float MaxDistance = 12f;
+	public float AttackCooldown = 5f;
 
-	private float _nextDestinationSwitch;
+	private float _nextDestinationSwitch = 0;
+	private float _nextAttack = 0;
 
 	protected override void Start()
 	{
@@ -33,9 +35,10 @@ public class EnemyHarasser : Enemy
 				_nextDestinationSwitch = Time.time + Random.Range(DestinationSwitchRandomRange.x, DestinationSwitchRandomRange.y); ;
 			}
 			
-			if (distance < Range)
+			if (distance < Range && Time.time >= _nextAttack)
 			{
 				_anim.SetTrigger("attack");
+				_nextAttack = Time.time + AttackCooldown;
 			}
 
 		}
