@@ -13,7 +13,14 @@ public class Player : vp_FPPlayerDamageHandler
 	
 	public List<Perk> Perks;
 
-	public vp_UnitType InfiniteAmmo;
+	public vp_UnitType PistolAmmo;
+	public vp_UnitBankType Rifle;
+	public vp_UnitType RifleAmmo;
+	public vp_UnitBankType Machinegun;
+	public vp_UnitType MachinegunAmmo;
+	private bool _hasRifle = false;
+	private bool _hasMachinegun = false;
+	
 	public Rigidbody Head;
 	public Camera FPSCamera;
 
@@ -36,7 +43,7 @@ public class Player : vp_FPPlayerDamageHandler
 		_baseDamping = _controller.MotorDamping;
 		_baseJumpForce = _controller.MotorJumpForce;
 		_inventory = GetComponent<vp_PlayerInventory>();
-		_inventory.TryGiveUnits(InfiniteAmmo,int.MaxValue);
+		_inventory.TryGiveUnits(PistolAmmo,int.MaxValue);
 		Head.isKinematic = true;
 
 	}
@@ -122,6 +129,18 @@ public class Player : vp_FPPlayerDamageHandler
 				foreach (var shooter in shooters)
 				{
 					shooter.ProjectileCount += 1;
+				}
+				break;
+			case "Weapon":
+				if (!_hasRifle)
+				{
+					_inventory.TryGiveUnitBank(Rifle, Rifle.Capacity, 0);
+					_inventory.TryGiveUnits(RifleAmmo, 8 * Rifle.Capacity);
+					_hasRifle = true;
+				}
+				else
+				{
+					_inventory.SetUnitCount(RifleAmmo, 8 * Rifle.Capacity);
 				}
 				break;
 			default:
