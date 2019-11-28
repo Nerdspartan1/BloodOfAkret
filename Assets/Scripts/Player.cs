@@ -34,6 +34,14 @@ public class Player : vp_FPPlayerDamageHandler
 	private float _baseDamping;
 	private float _baseJumpForce;
 
+	vp_FPWeaponShooter[] _shooters;
+
+	protected override void Awake()
+	{
+		_shooters = GetComponentsInChildren<vp_FPWeaponShooter>();
+		base.Awake();
+	}
+
 	private void Start()
 	{
 
@@ -107,7 +115,7 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		Perks.Add(perk);
 
-		var shooters = GetComponentsInChildren<vp_FPWeaponShooter>();
+		
 
 		switch (perk.Name)
 		{
@@ -124,14 +132,14 @@ public class Player : vp_FPPlayerDamageHandler
 				_controller.MotorJumpForce *= 1.25f;
 				break;
 			case "Frenesy":
-				foreach (var shooter in shooters)
+				foreach (var shooter in _shooters)
 				{
 					shooter.ProjectileFiringRate *= 0.90f;
 					shooter.ProjectileTapFiringRate *= 0.90f;
 				}
 				break;
 			case "Frenesy II":
-				foreach (var shooter in shooters)
+				foreach (var shooter in _shooters)
 				{
 					shooter.ProjectileFiringRate *= 0.78f;
 					shooter.ProjectileTapFiringRate *= 0.78f;
@@ -139,7 +147,7 @@ public class Player : vp_FPPlayerDamageHandler
 				break;
 			case "Mirror of Ptah":
 				AddMirroredCamera();
-				foreach (var shooter in shooters)
+				foreach (var shooter in _shooters)
 				{
 					shooter.ProjectileCount += 1;
 				}
