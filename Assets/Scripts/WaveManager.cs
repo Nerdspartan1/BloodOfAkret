@@ -51,12 +51,15 @@ public class WaveManager : MonoBehaviour
 
 	private bool _forceEndWave = false;
 
+	public static int EnemiesKilled;
+	public static int GodsSlain;
 
-	private int _numberOfEnemiesAlive;
-	private int _wave = 0;
+	public int Wave = 0;
 
 	private void Awake()
 	{
+		EnemiesKilled = 0;
+		GodsSlain = 0;
 		Instance = this;
 	}
 
@@ -130,14 +133,15 @@ public class WaveManager : MonoBehaviour
 		if (who is EnemyHarasser)
 		{
 			if (_remainingSkeletons-- > MaxSkeletons) SpawnSkeleton();
+			EnemiesKilled++;
 		}
 		else if (who is EnemyCharger)
 		{
 			if (_remainingMummies-- > MaxMummies) SpawnMummy();
+			EnemiesKilled++;
 		}
 		else if (who is God)
 		{
-			Debug.Log("god dead");
 			_remainingGolems = 0;
 			_remainingMages = 0;
 			_remainingSkeletons = 0;
@@ -148,14 +152,17 @@ public class WaveManager : MonoBehaviour
 			{
 				enemy.Die();
 			}
+			GodsSlain++;
 		}
 		else if (who is EnemyMage)
 		{
 			if (_remainingMages-- > MaxMages) SpawnMage();
+			EnemiesKilled++;
 		}
 		else if (who is EnemyCaster)
 		{
 			if (_remainingGolems-- > MaxGolems) SpawnGolem();
+			EnemiesKilled++;
 		}
 
 
@@ -192,11 +199,11 @@ public class WaveManager : MonoBehaviour
 	public IEnumerator StartNextWave()
 	{
 		WaveAnnouncer.SetTrigger("startWave");
-		WaveAnnouncer.gameObject.GetComponentInChildren<Text>().text = $"Wave {++_wave}";
+		WaveAnnouncer.gameObject.GetComponentInChildren<Text>().text = $"Wave {++Wave}";
 
 		yield return new WaitForSeconds(WaveStartDelay);
 
-		switch (_wave)
+		switch (Wave)
 		{
 			case 1:
 				SpawnWave(0, 0, 3, 0,true);
