@@ -87,7 +87,7 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		base.Update();
 		if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
-		if (Input.GetKeyDown(KeyCode.C)) AddMirroredCamera();
+		if (Input.GetKeyDown(KeyCode.C)) PerkUp(new Perk { Name = "Weapon II" });
 
 		HealthCounter.text = $"{CurrentHealth}";
 	}
@@ -156,7 +156,7 @@ public class Player : vp_FPPlayerDamageHandler
 				if (!_hasRifle)
 				{
 					_inventory.TryGiveUnitBank(Rifle, Rifle.Capacity, 0);
-					_inventory.TryGiveUnits(RifleAmmo, 8 * Rifle.Capacity);
+					_inventory.TryGiveUnits(RifleAmmo, 7 * Rifle.Capacity);
 					_hasRifle = true;
 				}
 				else
@@ -167,13 +167,13 @@ public class Player : vp_FPPlayerDamageHandler
 			case "Weapon II":
 				if (!_hasMachinegun)
 				{
-					_inventory.TryGiveUnitBank(Machinegun, Rifle.Capacity, 0);
-					_inventory.TryGiveUnits(MachinegunAmmo, 3 * Machinegun.Capacity);
+					_inventory.TryGiveUnitBank(Machinegun, Machinegun.Capacity, 0);
+					_inventory.TryGiveUnits(MachinegunAmmo, 4 * Machinegun.Capacity);
 					_hasMachinegun = true;
 				}
 				else
 				{
-					_inventory.SetUnitCount(MachinegunAmmo, 3 * Machinegun.Capacity);
+					_inventory.SetUnitCount(MachinegunAmmo, 5 * Machinegun.Capacity);
 				}
 				break;
 			default:
