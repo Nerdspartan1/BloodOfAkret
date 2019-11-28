@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
 	public GameObject Game;
 	public GameObject PauseMenu;
 
+	public GameObject TitleScreen;
+	public GameObject ControlsScreen;
+	public GameObject CreditsScreen;
+
 	private bool _isPaused;
 	private bool _mouseLocked = true;
 	private bool _mouseLockedInGame;
@@ -30,6 +34,8 @@ public class GameManager : MonoBehaviour
 	void Start()
     {
 		Menu.SetActive(true);
+		BackToTitleScreen();
+
 		Player.SetActive(false);
 		Intro.SetActive(false);
 		Game.SetActive(false);
@@ -72,6 +78,31 @@ public class GameManager : MonoBehaviour
 	public void ResetGame()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void OpenControls()
+	{
+		ControlsScreen.SetActive(true);
+		TitleScreen.SetActive(false);
+	}
+
+	public void OpenCredits()
+	{
+		CreditsScreen.SetActive(true);
+		TitleScreen.SetActive(false);
+	}
+
+
+	public void BackToTitleScreen()
+	{
+		ControlsScreen.SetActive(false);
+		CreditsScreen.SetActive(false);
+		TitleScreen.SetActive(true);
+	}
+
+	public void Quit()
+	{
+		Application.Quit();
 	}
 
 	public void Pause()
