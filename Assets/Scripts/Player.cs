@@ -45,6 +45,7 @@ public class Player : vp_FPPlayerDamageHandler
 	private void Start()
 	{
 		MaxHealth += PlayerPrefs.GetInt("bonusMaxHealth", 0);
+		CurrentHealth = MaxHealth;
 
 		_controller = GetComponent<vp_FPController>();
 		_collider = GetComponent<Collider>();

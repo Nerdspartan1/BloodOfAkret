@@ -16,6 +16,8 @@ public class God : EnemyMage
 	public GameObject AoEProjectile;
 	public GameObject LongRangeProjectile;
 
+	public GameObject DeathEffect;
+
 
 	public enum Phase
 	{
@@ -120,9 +122,12 @@ public class God : EnemyMage
 		_anim.SetBool("dead", true);
 		this.enabled = false;
 
+		
 		if (_disintegrate) _disintegrate.enabled = true;
 
+		var effect = Instantiate(DeathEffect, transform.position, Quaternion.identity);
 		StartCoroutine(SpinCoroutine());
+		Destroy(effect);
 
 		WaveManager.Instance.EnemyDown(this);
 	}
@@ -136,5 +141,6 @@ public class God : EnemyMage
 			yield return null;
 			_t += Time.deltaTime;
 		}
+
 	}
 }
