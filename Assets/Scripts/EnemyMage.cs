@@ -9,7 +9,7 @@ public class EnemyMage : EnemyCaster
 	public GameObject PatrolCenter;
 	public float AltitudeOverGround = 4f;
 
-	private float _theta;
+	protected float _theta;
 
 	protected override void Start()
 	{

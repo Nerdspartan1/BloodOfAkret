@@ -24,6 +24,7 @@ public class WaveManager : MonoBehaviour
 	public GameObject MummyPrefab;
 	public GameObject GolemPrefab;
 	public GameObject MagePrefab;
+	public GameObject GodPrefab;
 	public Shop Shop;
 	public Text PointsText;
 
@@ -41,17 +42,14 @@ public class WaveManager : MonoBehaviour
 	public int MaxMages = 3;
 	public int MaxMummies = 1;
 	public int MaxGolems = 1;
-	
-
-	private int _currentSkeletons;
-	private int _currentMummies;
-	private int _currentGolems;
-	private int _currentMages;
 
 	private int _remainingSkeletons;
 	private int _remainingMummies;
 	private int _remainingGolems;
 	private int _remainingMages;
+	private bool _remainingBoss;
+
+	private bool _forceEndWave = false;
 
 
 	private int _numberOfEnemiesAlive;
@@ -77,16 +75,19 @@ public class WaveManager : MonoBehaviour
 		StartCoroutine(StartNextWave());
 	}
 
-	public void SpawnWave(int skeletons, int mummies,int mages, int golems)
+	public void SpawnWave(int skeletons, int mummies, int mages, int golems, bool god = false)
 	{
+		_forceEndWave = false;
 		_remainingSkeletons = skeletons;
 		_remainingMummies = mummies;
 		_remainingGolems = golems;
 		_remainingMages = mages;
+		_remainingBoss = god;
 		for (int i = 0; i < Mathf.Min(skeletons,MaxSkeletons); i++) SpawnSkeleton();
 		for (int i = 0; i < Mathf.Min(mummies,MaxMummies); i++) SpawnMummy();
 		for (int i = 0; i < Mathf.Min(golems,MaxGolems); i++) SpawnGolem();
 		for (int i = 0; i < Mathf.Min(mages, MaxMages); i++) SpawnMage();
+		if (god) SpawnGod();
 
 	}
 
@@ -94,21 +95,18 @@ public class WaveManager : MonoBehaviour
 	{
 		Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
-        Debug.Log("Skeleton!");
 	}
 
 	public void SpawnMummy()
 	{
 		Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
-        Debug.Log("Mummy!");
 	}
 
 	public void SpawnGolem()
 	{
 		Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
-        Debug.Log("Golem!");
 	}
 
 	public void SpawnMage()
@@ -116,12 +114,19 @@ public class WaveManager : MonoBehaviour
 		EnemyMage enemy = Instantiate(MagePrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<EnemyMage>();
 		enemy.Target = _player;
 		enemy.PatrolCenter = _player.gameObject;
-		Debug.Log("Mage!");
 	}
 
+	public void SpawnGod()
+	{
+		EnemyMage enemy = Instantiate(GodPrefab, GameManager.Instance.Game.transform.position, Quaternion.identity, transform).GetComponent<EnemyMage>();
+		enemy.Target = _player;
+		enemy.PatrolCenter = GameManager.Instance.Game;
+	}
 
 	public void EnemyDown(Enemy who)
 	{
+		if (_forceEndWave) return;
+
 		if (who is EnemyHarasser)
 		{
 			if (_remainingSkeletons-- > MaxSkeletons) SpawnSkeleton();
@@ -130,16 +135,31 @@ public class WaveManager : MonoBehaviour
 		{
 			if (_remainingMummies-- > MaxMummies) SpawnMummy();
 		}
-		else if (who is EnemyCaster)
+		else if (who is God)
 		{
-			if (_remainingGolems-- > MaxGolems) SpawnGolem();
+			Debug.Log("god dead");
+			_remainingGolems = 0;
+			_remainingMages = 0;
+			_remainingSkeletons = 0;
+			_remainingMummies = 0;
+			_remainingBoss = false;
+			_forceEndWave = true;
+			foreach (var enemy in GameManager.Instance.Game.GetComponentsInChildren<Enemy>())
+			{
+				enemy.Die();
+			}
 		}
 		else if (who is EnemyMage)
 		{
 			if (_remainingMages-- > MaxMages) SpawnMage();
 		}
+		else if (who is EnemyCaster)
+		{
+			if (_remainingGolems-- > MaxGolems) SpawnGolem();
+		}
 
-		if (_remainingGolems + _remainingMummies + _remainingSkeletons + _remainingMages == 0)
+
+		if (!_remainingBoss && _remainingGolems + _remainingMummies + _remainingSkeletons + _remainingMages == 0)
 		{
 			StartCoroutine(EndWave());
 		}
@@ -179,7 +199,7 @@ public class WaveManager : MonoBehaviour
 		switch (_wave)
 		{
 			case 1:
-				SpawnWave(0, 0, 3, 0);
+				SpawnWave(0, 0, 3, 0,true);
 				break;
 			case 2:
 				SpawnWave(0, 1, 0,0);

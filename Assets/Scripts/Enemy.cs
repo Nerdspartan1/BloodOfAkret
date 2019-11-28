@@ -23,7 +23,7 @@ public class Enemy : vp_DamageHandler
 	protected Animator _anim;
 	private Collider _collider;
 	private float _lastDamageTaken;
-	private Disintegrate _disintegrate;
+	protected Disintegrate _disintegrate;
 
 	protected virtual void Start()
     {
@@ -33,9 +33,12 @@ public class Enemy : vp_DamageHandler
 		if (_disintegrate) _disintegrate.enabled = false;
 		_nav = GetComponent<NavMeshAgent>();
 		_anim = GetComponent<Animator>();
-		foreach (Rigidbody rb in Ragdoll.GetComponentsInChildren<Rigidbody>())
+		if (Ragdoll)
 		{
-			rb.isKinematic = true;
+			foreach (Rigidbody rb in Ragdoll.GetComponentsInChildren<Rigidbody>())
+			{
+				rb.isKinematic = true;
+			}
 		}
 	}
 
@@ -48,11 +51,14 @@ public class Enemy : vp_DamageHandler
 	public override void Die()
 	{
 		_collider.enabled = false;
-		Vector3 pushForce = 10f*(transform.position - Target.transform.position).normalized * _lastDamageTaken;
-		foreach (Rigidbody rb in Ragdoll.GetComponentsInChildren<Rigidbody>())
+		if (Ragdoll)
 		{
-			rb.isKinematic = false;
-			rb.AddForce(pushForce,ForceMode.Impulse);
+			Vector3 pushForce = 10f * (transform.position - Target.transform.position).normalized * _lastDamageTaken;
+			foreach (Rigidbody rb in Ragdoll.GetComponentsInChildren<Rigidbody>())
+			{
+				rb.isKinematic = false;
+				rb.AddForce(pushForce, ForceMode.Impulse);
+			}
 		}
 		if(_nav) _nav.enabled = false;
 		_anim.enabled = false;

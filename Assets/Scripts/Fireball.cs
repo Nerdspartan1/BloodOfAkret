@@ -32,7 +32,14 @@ public class Fireball : MonoBehaviour
 	private void OnCollisionEnter(Collision collision)
 	{
 		Destroy(gameObject);
+
 		var player = collision.gameObject.GetComponent<Player>();
-		if (player) player.Damage(Damage);
+		if (player)
+		{
+			var impactPoint = new GameObject();
+			impactPoint.transform.position = transform.position;
+			Destroy(impactPoint, 2f);
+			player.Damage(new vp_DamageInfo(Damage, impactPoint.transform, vp_DamageInfo.DamageType.Bullet));
+		}
 	}
 }
