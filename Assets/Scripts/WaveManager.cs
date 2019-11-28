@@ -81,18 +81,21 @@ public class WaveManager : MonoBehaviour
 	{
 		Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
+        Debug.Log("Skeleton!");
 	}
 
 	public void SpawnMummy()
 	{
 		Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
+        Debug.Log("Mummy!");
 	}
 
 	public void SpawnGolem()
 	{
 		Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
+        Debug.Log("Golem!");
 	}
 
 

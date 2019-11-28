@@ -15,7 +15,7 @@ public class SoundAnimPlayer : MonoBehaviour
     {
         
     }
-
+    //Skeleton and Mummy Warriors
     void PlaySkelWarrMov()
     {
         if (_isMummy)
@@ -26,8 +26,32 @@ public class SoundAnimPlayer : MonoBehaviour
         {
             FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrmov, this.gameObject);
         }
-       
-        
+    }
+    void PlaySkelWarrAttack()
+    {
+        if (_isMummy)
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummywarrattack, this.gameObject);
+        }
+        else
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrattack, this.gameObject);
+        }
+    }
+    //Skeleton Mages
+    void PlaySkelMageMov()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelmagemov, this.gameObject);
+    }
+    void PlaySkelMageAttack()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelmageattack, this.gameObject);
+    }
+    //Golems
+    
+    void PlayGolemMov()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemmov, this.gameObject);
     }
 
 }
