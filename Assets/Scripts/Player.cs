@@ -90,6 +90,11 @@ public class Player : vp_FPPlayerDamageHandler
 		if (Input.GetKeyDown(KeyCode.C)) PerkUp(new Perk { Name = "Weapon II" });
 
 		HealthCounter.text = $"{CurrentHealth}";
+
+		if(transform.position.y < -70) //fell in void
+		{
+			Die();
+		}
 	}
 
 	public override void Die()

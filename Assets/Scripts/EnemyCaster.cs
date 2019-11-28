@@ -8,9 +8,15 @@ public class EnemyCaster : Enemy
 	public float CastRange;
 	public GameObject CastProjectile;
 	public int NumberOfProjectiles;
-	private float _timeBeforeNextCast = 0f;
+	protected float _timeBeforeNextCast = 0f;
 
-    protected override void Update()
+	protected override void Start()
+	{
+		base.Start();
+		_timeBeforeNextCast = Random.Range(0f, CastingCooldown);
+	}
+
+	protected override void Update()
 	{
 		_anim.SetFloat("speed", _nav.velocity.magnitude);
 		if (Target) _nav.SetDestination(Target.transform.position);
@@ -27,7 +33,7 @@ public class EnemyCaster : Enemy
 		_timeBeforeNextCast -= Time.deltaTime;
 	}
 
-	public void Cast()
+	public virtual void Cast()
 	{
 		
 		for(int i = 0; i < NumberOfProjectiles; ++i)
