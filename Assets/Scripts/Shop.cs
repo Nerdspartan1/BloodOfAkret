@@ -23,7 +23,16 @@ public class Shop : MonoBehaviour
 	[Range(0, 1)]
 	public float LegendaryProbability;
 
-	public void PresentPerks()
+	[Range(0, 1)]
+	public float CommonProbability_BossLoot = 1;
+	[Range(0, 1)]
+	public float UncommonProbability_BossLoot;
+	[Range(0, 1)]
+	public float RareProbability_BossLoot;
+	[Range(0, 1)]
+	public float LegendaryProbability_BossLoot;
+
+	public void PresentPerks(bool bossLoot)
 	{
 		List<Perk> randomPerks = new List<Perk>(UnlockedPerks);
 		randomPerks.RandomizeList();
@@ -42,12 +51,25 @@ public class Shop : MonoBehaviour
 		{
 			Perk perk = randomPerks[i % randomPerks.Count];
 			float p=1;
-			switch (perk.Rarity)
+			if (!bossLoot)
 			{
-				case PerkRarity.Common: p = CommonProbability; break;
-				case PerkRarity.Uncommon:  p = UncommonProbability; break;
-				case PerkRarity.Rare: p = RareProbability; break;
-				case PerkRarity.Legendary: p = LegendaryProbability; break;
+				switch (perk.Rarity)
+				{
+					case PerkRarity.Common: p = CommonProbability; break;
+					case PerkRarity.Uncommon: p = UncommonProbability; break;
+					case PerkRarity.Rare: p = RareProbability; break;
+					case PerkRarity.Legendary: p = LegendaryProbability; break;
+				}
+			}
+			else
+			{
+				switch (perk.Rarity)
+				{
+					case PerkRarity.Common: p = CommonProbability_BossLoot; break;
+					case PerkRarity.Uncommon: p = UncommonProbability_BossLoot; break;
+					case PerkRarity.Rare: p = RareProbability_BossLoot; break;
+					case PerkRarity.Legendary: p = LegendaryProbability_BossLoot; break;
+				}
 			}
 
 			if(Random.value < p)

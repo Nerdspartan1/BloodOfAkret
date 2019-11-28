@@ -44,7 +44,7 @@ public class Player : vp_FPPlayerDamageHandler
 
 	private void Start()
 	{
-
+		MaxHealth += PlayerPrefs.GetInt("bonusMaxHealth", 0);
 
 		_controller = GetComponent<vp_FPController>();
 		_collider = GetComponent<Collider>();
@@ -125,7 +125,7 @@ public class Player : vp_FPPlayerDamageHandler
 		switch (perk.Name)
 		{
 			case "Heal":
-				MaxHealth += 2;
+				MaxHealth += 1;
 				CurrentHealth = MaxHealth;
 				break;
 			case "Grace of Bastet":
@@ -133,21 +133,32 @@ public class Player : vp_FPPlayerDamageHandler
 				_controller.MotorJumpForce *= 1.10f;
 				break;
 			case "Grace of Bastet II":
-				_controller.MotorDamping *= 0.750f;
-				_controller.MotorJumpForce *= 1.25f;
+				_controller.MotorDamping *= 0.80f;
+				_controller.MotorJumpForce *= 1.20f;
+				break;
+			case "Grace of Bastet III":
+				_controller.MotorDamping *= 0.70f;
+				_controller.MotorJumpForce *= 1.30f;
 				break;
 			case "Frenesy":
+				foreach (var shooter in _shooters)
+				{
+					shooter.ProjectileFiringRate *= 0.95f;
+					shooter.ProjectileTapFiringRate *= 0.95f;
+				}
+				break;
+			case "Frenesy II":
 				foreach (var shooter in _shooters)
 				{
 					shooter.ProjectileFiringRate *= 0.90f;
 					shooter.ProjectileTapFiringRate *= 0.90f;
 				}
 				break;
-			case "Frenesy II":
+			case "Frenesy III":
 				foreach (var shooter in _shooters)
 				{
-					shooter.ProjectileFiringRate *= 0.78f;
-					shooter.ProjectileTapFiringRate *= 0.78f;
+					shooter.ProjectileFiringRate *= 0.85f;
+					shooter.ProjectileTapFiringRate *= 0.85f;
 				}
 				break;
 			case "Mirror of Ptah":
@@ -161,12 +172,12 @@ public class Player : vp_FPPlayerDamageHandler
 				if (!_hasRifle)
 				{
 					_inventory.TryGiveUnitBank(Rifle, Rifle.Capacity, 0);
-					_inventory.TryGiveUnits(RifleAmmo, 7 * Rifle.Capacity);
+					_inventory.TryGiveUnits(RifleAmmo, 4 * Rifle.Capacity);
 					_hasRifle = true;
 				}
 				else
 				{
-					_inventory.SetUnitCount(RifleAmmo, 8 * Rifle.Capacity);
+					_inventory.SetUnitCount(RifleAmmo, 5 * Rifle.Capacity);
 				}
 				break;
 			case "Weapon II":
@@ -180,6 +191,9 @@ public class Player : vp_FPPlayerDamageHandler
 				{
 					_inventory.SetUnitCount(MachinegunAmmo, 5 * Machinegun.Capacity);
 				}
+				break;
+			case "Blessing":
+				PlayerPrefs.SetInt("bonusMaxHealth", PlayerPrefs.GetInt("bonusMaxHealth",0) + 5);
 				break;
 			default:
 				throw new System.Exception("Perk not recognized");

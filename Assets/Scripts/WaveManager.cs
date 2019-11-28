@@ -50,6 +50,7 @@ public class WaveManager : MonoBehaviour
 	private bool _remainingBoss;
 
 	private bool _forceEndWave = false;
+	private bool _bossWave = false;
 
 	public static int EnemiesKilled;
 	public static int GodsSlain;
@@ -86,6 +87,7 @@ public class WaveManager : MonoBehaviour
 		_remainingGolems = golems;
 		_remainingMages = mages;
 		_remainingBoss = god;
+		_bossWave = god;
 		for (int i = 0; i < Mathf.Min(skeletons,MaxSkeletons); i++) SpawnSkeleton();
 		for (int i = 0; i < Mathf.Min(mummies,MaxMummies); i++) SpawnMummy();
 		for (int i = 0; i < Mathf.Min(golems,MaxGolems); i++) SpawnGolem();
@@ -182,7 +184,7 @@ public class WaveManager : MonoBehaviour
 	public void OpenShop()
 	{
 		Shop.gameObject.SetActive(true);
-		Shop.PresentPerks();
+		Shop.PresentPerks(_bossWave);
 
 		GameManager.Instance.FreeMouse();
 	}
@@ -206,7 +208,7 @@ public class WaveManager : MonoBehaviour
 		switch (Wave)
 		{
 			case 1:
-				SpawnWave(0, 0, 3, 0,true);
+				SpawnWave(0, 0, 3, 0, true);
 				break;
 			case 2:
 				SpawnWave(0, 1, 0,0);
