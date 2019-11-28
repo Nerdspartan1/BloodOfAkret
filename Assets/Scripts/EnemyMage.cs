@@ -11,14 +11,26 @@ public class EnemyMage : EnemyCaster
 
 	protected float _theta;
 
+    FMOD.Studio.EventInstance magefloatEvent;
+
 	protected override void Start()
 	{
 		_theta = Random.Range(0, 6.28f);
 		base.Start();
-	}
 
-	protected override void Update()
+        magefloatEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.skelmagemov);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(magefloatEvent, this.transform, this.GetComponent<Rigidbody>());
+        magefloatEvent.start();
+    }
+    public override void Die()
     {
+        base.Die();
+        magefloatEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+    }
+    protected override void Update()
+    {
+        
+
 		Vector3 thisToPlayer = Target.transform.position - transform.position;
 
 		
@@ -57,6 +69,6 @@ public class EnemyMage : EnemyCaster
 	public static Vector3 Damp(Vector3 source, Vector3 target, float smoothing, float dt)
 	{
 		return Vector3.Lerp(source, target, 1 - Mathf.Pow(smoothing, dt));
-		
+        
 	}
 }

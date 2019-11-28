@@ -14,7 +14,7 @@ public class Fireball : MonoBehaviour
 	private Rigidbody _rb;
 	private float _acceleration;
 
-    
+    FMOD.Studio.EventInstance fireballEvent;
 
     void Start()
     {
@@ -22,6 +22,9 @@ public class Fireball : MonoBehaviour
 		_rb.velocity = Random.Range(InitialSpeed.x, InitialSpeed.y) * transform.forward;
 		_acceleration = Random.Range(HomingAcceleration.x, HomingAcceleration.y);
 
+        fireballEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.skelmagefireball);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(fireballEvent, this.transform, this.GetComponent<Rigidbody>());
+        fireballEvent.start();
 	}
 
     void Update()
@@ -29,13 +32,18 @@ public class Fireball : MonoBehaviour
 		_rb.AddForce((Target.transform.position - transform.position).normalized * _acceleration, ForceMode.Acceleration);
 		LifeTime -= Time.deltaTime;
 		if (LifeTime < 0) Destroy(gameObject);
-        Debug.Log(Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
+
+        
+        fireballEvent.setParameterByName("Fireball Travel", Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
+        //Debug.Log(Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
     }
 
 	private void OnCollisionEnter(Collision collision)
 	{
 		Destroy(gameObject);
-        //fmod fireball hit impact
+
+        fireballEvent.setParameterByName("Fireball Travel", 0f);
+
 		var player = collision.gameObject.GetComponent<Player>();
 		if (player)
 		{
