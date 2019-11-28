@@ -42,7 +42,7 @@ public class PyramidEntering : MonoBehaviour
 	public void Update()
 	{
 		//if player drops into arena
-		if (_playerInPyramid && Player.transform.position.y < -40f)
+		if (_playerInPyramid && Player.transform.position.y < -8f)
 		{
 			foreach (var weapon in Player.GetComponentsInChildren<vp_Weapon>())
 			{

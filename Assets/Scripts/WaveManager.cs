@@ -27,6 +27,9 @@ public class WaveManager : MonoBehaviour
 	public Shop Shop;
 	public Text PointsText;
 
+	public Material ArenaSky;
+	public GameObject DirectionalLight;
+
 	private Player _player;
 
 	public Animator WaveAnnouncer;
@@ -68,6 +71,9 @@ public class WaveManager : MonoBehaviour
 
 	public void StartGame()
 	{
+		RenderSettings.skybox = ArenaSky;
+		_player.FPSCamera.clearFlags = CameraClearFlags.Skybox;
+		DirectionalLight.transform.Rotate(Vector3.right, -30);
 		StartCoroutine(StartNextWave());
 	}
 
