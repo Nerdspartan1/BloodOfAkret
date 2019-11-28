@@ -9,6 +9,7 @@ public class EnemyCaster : Enemy
 	public GameObject CastProjectile;
 	public int NumberOfProjectiles;
 	protected float _timeBeforeNextCast = 0f;
+	protected float MinimumCastCooldown = 1f;
 
 	protected override void Start()
 	{
@@ -23,7 +24,7 @@ public class EnemyCaster : Enemy
 
 		float distance = Vector3.Distance(Target.transform.position, HitCast.transform.position);
 
-		if (_timeBeforeNextCast < 0f && distance < CastRange)
+		if ((_timeBeforeNextCast < 0f && distance < CastRange) || (distance < Range && _timeBeforeNextCast < CastingCooldown - MinimumCastCooldown))
 		{
 			_nav.isStopped = true;
 			_anim.SetTrigger("cast");
@@ -31,6 +32,7 @@ public class EnemyCaster : Enemy
 		}
 
 		_timeBeforeNextCast -= Time.deltaTime;
+
 	}
 
 	public virtual void Cast()
