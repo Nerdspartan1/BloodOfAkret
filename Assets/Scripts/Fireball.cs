@@ -14,6 +14,8 @@ public class Fireball : MonoBehaviour
 	private Rigidbody _rb;
 	private float _acceleration;
 
+    
+
     void Start()
     {
 		_rb = GetComponent<Rigidbody>();
@@ -27,16 +29,17 @@ public class Fireball : MonoBehaviour
 		_rb.AddForce((Target.transform.position - transform.position).normalized * _acceleration, ForceMode.Acceleration);
 		LifeTime -= Time.deltaTime;
 		if (LifeTime < 0) Destroy(gameObject);
+        Debug.Log(Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
     }
 
 	private void OnCollisionEnter(Collision collision)
 	{
 		Destroy(gameObject);
-
+        //fmod fireball hit impact
 		var player = collision.gameObject.GetComponent<Player>();
 		if (player)
 		{
-			var impactPoint = new GameObject();
+            var impactPoint = new GameObject();
 			impactPoint.transform.position = transform.position;
 			Destroy(impactPoint, 2f);
 			player.Damage(new vp_DamageInfo(Damage, impactPoint.transform, vp_DamageInfo.DamageType.Bullet));

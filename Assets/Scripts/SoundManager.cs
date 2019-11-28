@@ -20,6 +20,8 @@ public class SoundManager : MonoBehaviour
     public string sandstorm;
     [FMODUnity.EventRef]
     public string flames;
+    [FMODUnity.EventRef]
+    public string planeflames;
 
     [Header("Player Movement")]
     [FMODUnity.EventRef]
@@ -44,6 +46,8 @@ public class SoundManager : MonoBehaviour
     public string skelmagemov;
     [FMODUnity.EventRef]
     public string skelmageattack;
+    [FMODUnity.EventRef]
+    public string skelmagefireball;
     [FMODUnity.EventRef]
     public string skelmagevoice;
 
