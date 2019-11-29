@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
         menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
         menuEvent.start();
 
+        //STOP AND RELEASE IN GAME MUSIC!!!
+
 		Player.SetActive(false);
 		Intro.SetActive(false);
 		Game.SetActive(false);
