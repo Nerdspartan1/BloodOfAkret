@@ -14,6 +14,9 @@ public class EnemyCharger : Enemy
 	private float _normalSpeed;
 	private float _normalAcceleration;
 
+    FMOD.Studio.EventInstance mummychargeEvent;
+
+
     protected override void Update()
     {
 		if (!_charging)
@@ -38,7 +41,9 @@ public class EnemyCharger : Enemy
 
 			_timeBeforeNextCharge -= Time.deltaTime;
 		}
-	}
+        //Debug.Log(Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
+        mummychargeEvent.setParameterByName("Mummy Charge", Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
+    }
 
 	public void BeginCharge()
 	{
@@ -48,15 +53,29 @@ public class EnemyCharger : Enemy
 		_nav.speed = ChargeSpeed;
 		_nav.acceleration = 100000f;
 		_nav.SetDestination(transform.position + (Target.transform.position - transform.position) * 1.2f);
-		
+
+        mummychargeEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.mummycharge);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(mummychargeEvent, this.transform, GetComponent<Rigidbody>());
+        mummychargeEvent.start();
+        
 	}
 
 	public void EndCharge()
 	{
-		_nav.speed = _normalSpeed;
+        mummychargeEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        mummychargeEvent.release();
+
+        _nav.speed = _normalSpeed;
 		_nav.acceleration = _normalAcceleration;
 		_charging = false;
 	}
 
+    public override void Die()
+    {
+        base.Die();
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummydeath, this.gameObject);
+        mummychargeEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        mummychargeEvent.release();
+    }
 
 }

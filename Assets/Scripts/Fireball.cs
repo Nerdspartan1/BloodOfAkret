@@ -22,7 +22,7 @@ public class Fireball : MonoBehaviour
 		_rb.velocity = Random.Range(InitialSpeed.x, InitialSpeed.y) * transform.forward;
 		_acceleration = Random.Range(HomingAcceleration.x, HomingAcceleration.y);
 
-        fireballEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.skelmagefireball);
+        fireballEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.skelmagefireballtravel);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(fireballEvent, this.transform, this.GetComponent<Rigidbody>());
         fireballEvent.start();
 	}
@@ -31,8 +31,12 @@ public class Fireball : MonoBehaviour
     {
 		_rb.AddForce((Target.transform.position - transform.position).normalized * _acceleration, ForceMode.Acceleration);
 		LifeTime -= Time.deltaTime;
-		if (LifeTime < 0) Destroy(gameObject);
-
+        if (LifeTime < 0)
+        {
+            Destroy(gameObject);
+            fireballEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            fireballEvent.release();
+        }
         
         fireballEvent.setParameterByName("Fireball Travel", Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
         //Debug.Log(Vector3.Distance(Target.transform.position, this.gameObject.transform.position));
@@ -43,8 +47,12 @@ public class Fireball : MonoBehaviour
 		Destroy(gameObject);
 
         fireballEvent.setParameterByName("Fireball Travel", 0f);
+        fireballEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        fireballEvent.release();
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.fireballimpact, this.gameObject);
 
-		var player = collision.gameObject.GetComponent<Player>();
+
+        var player = collision.gameObject.GetComponent<Player>();
 		if (player)
 		{
             var impactPoint = new GameObject();

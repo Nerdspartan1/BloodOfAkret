@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
     [FMODUnity.EventRef]
     public string menu;
     [FMODUnity.EventRef]
+    public string intro;
+    [FMODUnity.EventRef]
     public string music;
 
     [Header("Ambience")]
@@ -47,9 +49,13 @@ public class SoundManager : MonoBehaviour
     [FMODUnity.EventRef]
     public string skelmageattack;
     [FMODUnity.EventRef]
-    public string skelmagefireball;
+    public string skelmagefireballtravel;
+    [FMODUnity.EventRef]
+    public string fireballimpact;
     [FMODUnity.EventRef]
     public string skelmagevoice;
+    [FMODUnity.EventRef]
+    public string skelcommondeath;
 
     [Header("Enemy Mummy")]
     [FMODUnity.EventRef]
@@ -57,11 +63,17 @@ public class SoundManager : MonoBehaviour
     [FMODUnity.EventRef]
     public string mummywarrattack;
     [FMODUnity.EventRef]
+    public string mummycharge;
+    [FMODUnity.EventRef]
     public string mummywarrvoice;
+    [FMODUnity.EventRef]
+    public string mummydeath;
 
     [Header("Enemy Golem")]
     [FMODUnity.EventRef]
-    public string golemmov;
+    public string golemmov1;
+    [FMODUnity.EventRef]
+    public string golemmov2;
     [FMODUnity.EventRef]
     public string golemattack1;
     [FMODUnity.EventRef]

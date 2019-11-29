@@ -26,6 +26,7 @@ public class EnemyMage : EnemyCaster
     {
         base.Die();
         magefloatEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelcommondeath, this.gameObject);
     }
     protected override void Update()
     {
