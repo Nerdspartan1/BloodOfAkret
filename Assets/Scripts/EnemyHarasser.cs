@@ -43,4 +43,11 @@ public class EnemyHarasser : Enemy
 
 		}
 	}
+
+    public override void Die()
+    {
+        base.Die();
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelcommondeath, this.gameObject);
+    }
+
 }

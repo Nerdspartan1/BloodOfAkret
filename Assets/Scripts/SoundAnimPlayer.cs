@@ -47,11 +47,22 @@ public class SoundAnimPlayer : MonoBehaviour
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelmageattack, this.gameObject);
     }
+    void PlayMummyCharge()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummycharge, this.gameObject);
+    }
     //Golems
     
-    void PlayGolemMov()
+    void PlayGolemMov1()
     {
-        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemmov, this.gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemmov1, this.gameObject);
     }
-
+    void PlayGolemMov2()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemmov2, this.gameObject);
+    }
+    void PlayGolemAttack1()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemattack1, this.gameObject);
+    }
 }
