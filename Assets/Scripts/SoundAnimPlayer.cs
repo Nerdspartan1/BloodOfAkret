@@ -5,15 +5,38 @@ using UnityEngine;
 public class SoundAnimPlayer : MonoBehaviour
 {
     private bool _isMummy = false;
+    //private GameObject FirePlayer;
+    
+    FMOD.Studio.EventInstance planeflamesEvent;
 
+    void Awake()
+    {
+
+    }
     private void Start()
     {
-        if (GetComponent<EnemyCharger>()) _isMummy = true;
+        if (GetComponent<EnemyCharger>()) _isMummy = true;   
     }
 
     void Update()
     {
         
+    }
+    void PlayPlaneIntro()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(SoundManager.sm.plane);
+    }
+    void PlayPlaneFlames()
+    {
+        //planeflamesEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.planeflames);
+        //planeflamesEvent.start();
+    }
+    void StopPlaneFlames()
+    {
+        //FirePlayer = GameObject.Find("FirePlayer");
+        //Object.Destroy(FirePlayer);
+        //planeflamesEvent.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        //laneflamesEvent.release();
     }
     //Skeleton and Mummy Warriors
     void PlaySkelWarrMov()
@@ -65,4 +88,6 @@ public class SoundAnimPlayer : MonoBehaviour
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemattack1, this.gameObject);
     }
+
+
 }

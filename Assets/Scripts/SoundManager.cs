@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
     [FMODUnity.EventRef]
     public string menu;
     [FMODUnity.EventRef]
+    public string intro;
+    [FMODUnity.EventRef]
     public string music;
 
     [Header("Ambience")]

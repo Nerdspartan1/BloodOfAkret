@@ -21,6 +21,7 @@ public class DesertWandering : MonoBehaviour
 	private bool _lostInDesert;
 
     public FMOD.Studio.EventInstance sandstormEvent;
+    
 
 
 	private void Awake()
@@ -61,11 +62,11 @@ public class DesertWandering : MonoBehaviour
 		Pyramid.transform.LookAt(Player.transform, Vector3.up);
 	}
 
-	public void PlayIntro()
+
+    public void PlayIntro()
 	{
 		sandstormEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.sandstorm);
-		FMODUnity.RuntimeManager.PlayOneShot(SoundManager.sm.plane);
-        
+
 		_anim.SetTrigger("play");
 		Player.GetComponent<vp_FPController>().enabled = false;
 		Player.GetComponent<vp_FPWeaponHandler>().enabled = false;

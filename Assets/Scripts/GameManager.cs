@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
 	public bool CanPause = false;
 
+    FMOD.Studio.EventInstance menuEvent;
+
 	private void Awake()
 	{
 		Instance = this;
@@ -35,6 +37,9 @@ public class GameManager : MonoBehaviour
     {
 		Menu.SetActive(true);
 		BackToTitleScreen();
+
+        menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
+        menuEvent.start();
 
 		Player.SetActive(false);
 		Intro.SetActive(false);
@@ -61,7 +66,9 @@ public class GameManager : MonoBehaviour
 		Intro.GetComponent<DesertWandering>().PlayIntro();
 		Cursor.lockState = CursorLockMode.Locked;
 		RenderSettings.fogDensity = 0.08f;
-	}
+       
+        menuEvent.setParameterByName("Game Start", 1f);
+    }
 
 	public void StartGame()
 	{
@@ -73,7 +80,9 @@ public class GameManager : MonoBehaviour
 		CanPause = true;
 		RenderSettings.fogDensity = 0.08f;
 		Game.GetComponent<WaveManager>().StartGame();
-	}
+        
+        menuEvent.setParameterByName("Game Start", 1f);
+    }
 
 	public void ResetGame()
 	{
@@ -98,7 +107,9 @@ public class GameManager : MonoBehaviour
 		ControlsScreen.SetActive(false);
 		CreditsScreen.SetActive(false);
 		TitleScreen.SetActive(true);
-	}
+
+        menuEvent.start();
+    }
 
 	public void Quit()
 	{
