@@ -57,16 +57,18 @@ public class WaveManager : MonoBehaviour
 
 	public int Wave = 0;
 
+    public FMOD.Studio.EventInstance ingamemusicEvent;
+
 	private void Awake()
 	{
 		EnemiesKilled = 0;
 		GodsSlain = 0;
 		Instance = this;
-	}
+        _player = GameManager.Instance.Player.GetComponent<Player>();
+    }
 
 	void Start()
     {
-		_player = GameManager.Instance.Player.GetComponent<Player>();
 		Shop.gameObject.SetActive(false);
 		Points = 0;
     }
@@ -77,6 +79,12 @@ public class WaveManager : MonoBehaviour
 		_player.FPSCamera.clearFlags = CameraClearFlags.Skybox;
 		DirectionalLight.transform.Rotate(Vector3.right, -30);
 		StartCoroutine(StartNextWave());
+
+        GameManager.Instance.menuEvent.setParameterByName("Game Start", 1f);
+
+        ingamemusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.music);
+        ingamemusicEvent.setParameterByName("Wave Prog", Wave);
+        ingamemusicEvent.start();
 	}
 
 	public void SpawnWave(int skeletons, int mummies, int mages, int golems, bool god = false)
@@ -171,7 +179,11 @@ public class WaveManager : MonoBehaviour
 		if (!_remainingBoss && _remainingGolems + _remainingMummies + _remainingSkeletons + _remainingMages == 0)
 		{
 			StartCoroutine(EndWave());
-		}
+
+            //ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            
+            
+        }
 	}
 
 	public IEnumerator EndWave()
@@ -208,7 +220,7 @@ public class WaveManager : MonoBehaviour
 		switch (Wave)
 		{
 			case 1:
-				SpawnWave(2, 2, 2, 2,false);
+				SpawnWave(1, 0, 0, 0,false);
 				break;
 			case 2:
 				SpawnWave(0, 1, 0,0);
@@ -216,7 +228,10 @@ public class WaveManager : MonoBehaviour
 			default:
 				SpawnWave(0, 0, 1,0);
 				break;
+
+                //Debug.Log(Wave);
 		}
-	}
+        ingamemusicEvent.setParameterByName("Wave Prog", Wave);
+    }
 
 }

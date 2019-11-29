@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
 	public bool CanPause = false;
 
-    FMOD.Studio.EventInstance menuEvent;
+    public FMOD.Studio.EventInstance menuEvent;
 
 	private void Awake()
 	{
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
         menuEvent.start();
 
-        //STOP AND RELEASE IN GAME MUSIC!!!
+        //STOP AND RELEASE IN GAME MUSIC!!! CHANGE DEATH PARAM CHANGE WAVE PARAM
 
 		Player.SetActive(false);
 		Intro.SetActive(false);
@@ -82,7 +82,9 @@ public class GameManager : MonoBehaviour
 		CanPause = true;
 		RenderSettings.fogDensity = 0.08f;
 		Game.GetComponent<WaveManager>().StartGame();
-        
+
+        //menuEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //menuEvent.release();
         menuEvent.setParameterByName("Game Start", 1f);
     }
 
@@ -110,6 +112,9 @@ public class GameManager : MonoBehaviour
 		CreditsScreen.SetActive(false);
 		TitleScreen.SetActive(true);
 
+        //WaveManager.Instance.ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //WaveManager.Instance.ingamemusicEvent.release();
+        menuEvent.setParameterByName("Game Start", 0f);
         menuEvent.start();
     }
 
@@ -126,6 +131,7 @@ public class GameManager : MonoBehaviour
 		_mouseLockedInGame = _mouseLocked;
 		FreeMouse();
 
+        WaveManager.Instance.ingamemusicEvent.setPaused(true);
 	}
 
 	public void Unpause()
@@ -134,7 +140,9 @@ public class GameManager : MonoBehaviour
 		Time.timeScale = 1.0f;
 		PauseMenu.SetActive(false);
 		if (_mouseLockedInGame) LockMouse();
-	}
+
+        WaveManager.Instance.ingamemusicEvent.setPaused(false);
+    }
 
 	public void FreeMouse()
 	{
