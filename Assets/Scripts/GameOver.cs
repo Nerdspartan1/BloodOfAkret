@@ -15,15 +15,15 @@ public class GameOver : MonoBehaviour
 		switch (WaveManager.GodsSlain)
 		{
 			case 0:
-				Comment.text = "The gods did not notice you."; break;
+				Comment.text = "The gods did not notice you"; break;
 			case 1:
-				Comment.text = "The gods are amused by your struggle."; break;
+				Comment.text = "The gods are amused by your struggle"; break;
 			case 2:
-				Comment.text = "The gods are impressed by your fights."; break;
+				Comment.text = "The gods are impressed by your fights"; break;
 			case 3:
-				Comment.text = "The gods are concerned about your power."; break;
+				Comment.text = "The gods are concerned about your power"; break;
 			case 4:
-				Comment.text = "The gods fear you."; break;
+				Comment.text = "The gods fear you"; break;
 		}
 	}
 }

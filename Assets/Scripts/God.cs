@@ -16,7 +16,7 @@ public class God : EnemyMage
 	public GameObject AoEProjectile;
 	public GameObject LongRangeProjectile;
 
-	public GameObject DeathEffect;
+	public new GameObject DeathEffect;
 
 
 	public enum Phase
