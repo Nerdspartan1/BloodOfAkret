@@ -96,7 +96,7 @@ public class vp_FPInput : vp_Component
 		UpdateCursorLock();
 
 		// toggle pausing and abort if paused
-		UpdatePause();
+		//UpdatePause();
 
 		if (FPPlayer.Pause.Get() == true)
 			return;
@@ -121,7 +121,7 @@ public class vp_FPInput : vp_Component
 		InputSetWeapon();
 
 		// manage camera related input
-		InputCamera();
+		//InputCamera();
 
 	}
 

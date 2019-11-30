@@ -97,8 +97,8 @@ public class Player : vp_FPPlayerDamageHandler
 	protected override void Update()
 	{
 		base.Update();
-		if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
-		if (Input.GetKeyDown(KeyCode.C)) PerkUp(new Perk { Name = "Weapon II" });
+		//if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
+		//if (Input.GetKeyDown(KeyCode.C)) PerkUp(new Perk { Name = "Weapon II" });
 
 		HealthCounter.text = $"{CurrentHealth}";
 
