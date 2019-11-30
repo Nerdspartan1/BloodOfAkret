@@ -34,7 +34,8 @@ public class Player : vp_FPPlayerDamageHandler
 	private float _baseDamping;
 	private float _baseJumpForce;
 
-	vp_FPWeaponShooter[] _shooters;
+	[HideInInspector]
+	public vp_FPWeaponShooter[] _shooters;
 
 	protected override void Awake()
 	{

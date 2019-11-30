@@ -37,6 +37,8 @@ public class PyramidEntering : MonoBehaviour
 			Player.transform.SetParent(null);
 			GameManager.Instance.Game.SetActive(true);
 
+			WaveManager.Instance.SetSky();
+
 
 			_playerInPyramid = true;
 		}
@@ -47,10 +49,11 @@ public class PyramidEntering : MonoBehaviour
 		//if player drops into arena
 		if (_playerInPyramid && Player.transform.position.y < -8f)
 		{
-			foreach (var weapon in Player.GetComponentsInChildren<vp_Weapon>())
+			foreach (var shooter in Player.GetComponent<Player>()._shooters)
 			{
+				var weapon = shooter.GetComponent<vp_Weapon>();
 				weapon.SetState("Idle", false);
-				weapon.GetComponent<vp_WeaponShooter>().enabled = true;
+				shooter.enabled = true;
 			}
             var desertWandering = GameManager.Instance.Intro.GetComponent<DesertWandering>();
             desertWandering.intromusicEvent.setParameterByName("Inside Pyramid", 1f);

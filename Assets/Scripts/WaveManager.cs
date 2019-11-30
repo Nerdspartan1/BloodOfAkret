@@ -59,6 +59,8 @@ public class WaveManager : MonoBehaviour
 
     public FMOD.Studio.EventInstance ingamemusicEvent;
 
+	private bool _skyIsSet = false;
+
 	private void Awake()
 	{
 		EnemiesKilled = 0;
@@ -73,11 +75,22 @@ public class WaveManager : MonoBehaviour
 		Points = 0;
     }
 
+	public void SetSky()
+	{
+		if (!_skyIsSet)
+		{
+			RenderSettings.skybox = ArenaSky;
+			_player.FPSCamera.clearFlags = CameraClearFlags.Skybox;
+			DirectionalLight.transform.Rotate(Vector3.right, -30);
+			_skyIsSet = true;
+		}
+	}
+
 	public void StartGame()
 	{
-		RenderSettings.skybox = ArenaSky;
-		_player.FPSCamera.clearFlags = CameraClearFlags.Skybox;
-		DirectionalLight.transform.Rotate(Vector3.right, -30);
+
+		SetSky();
+
 		StartCoroutine(StartNextWave());
 
         GameManager.Instance.menuEvent.setParameterByName("Game Start", 1f);
