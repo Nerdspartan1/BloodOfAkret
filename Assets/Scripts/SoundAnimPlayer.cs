@@ -6,7 +6,9 @@ public class SoundAnimPlayer : MonoBehaviour
 {
     private bool _isMummy = false;
     //private GameObject FirePlayer;
-    
+
+    public static SoundAnimPlayer sap;
+
     FMOD.Studio.EventInstance planeflamesEvent;
 
     void Awake()
@@ -61,6 +63,19 @@ public class SoundAnimPlayer : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrattack, this.gameObject);
         }
     }
+
+    void PlaySkelWarrVoice()
+    {
+        if (_isMummy)
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummywarrvoice, this.gameObject);
+        }
+        else
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrvoice, this.gameObject);
+        }
+    }
+
     //Skeleton Mages
     void PlaySkelMageMov()
     {
@@ -69,6 +84,10 @@ public class SoundAnimPlayer : MonoBehaviour
     void PlaySkelMageAttack()
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelmageattack, this.gameObject);
+    }
+    void PlaySkelMageVoice()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelmagevoice, this.gameObject);
     }
     void PlayMummyCharge()
     {

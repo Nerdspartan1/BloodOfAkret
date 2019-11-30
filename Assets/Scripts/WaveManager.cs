@@ -58,6 +58,7 @@ public class WaveManager : MonoBehaviour
 	public int Wave = 0;
 
     public FMOD.Studio.EventInstance ingamemusicEvent;
+    FMOD.Studio.Bus MageBus;
 
 	private bool _skyIsSet = false;
 
@@ -98,8 +99,6 @@ public class WaveManager : MonoBehaviour
 
         ingamemusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.music);
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
-        //ingamemusicEvent.start();
-        //Debug.Log("Wave started");
 	}
 
 	public void SpawnWave(int skeletons, int mummies, int mages, int golems, bool god = false)
@@ -126,26 +125,34 @@ public class WaveManager : MonoBehaviour
 	{
 		Enemy enemy = Instantiate(SkeletonPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
+        
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelwarrvoice, enemy.gameObject);
 	}
 
 	public void SpawnMummy()
 	{
 		Enemy enemy = Instantiate(MummyPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
-	}
+        
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummywarrvoice, enemy.gameObject);
+    }
 
 	public void SpawnGolem()
 	{
 		Enemy enemy = Instantiate(GolemPrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<Enemy>();
 		enemy.Target = _player;
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.golemvoice, enemy.gameObject);
+    }
 
 	public void SpawnMage()
 	{
 		EnemyMage enemy = Instantiate(MagePrefab, EnemySpawns[Random.Range(0, EnemySpawns.Count - 1)].transform.position, Quaternion.identity, transform).GetComponent<EnemyMage>();
 		enemy.Target = _player;
 		enemy.PatrolCenter = _player.gameObject;
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.skelmagevoice, enemy.gameObject);
+    }
 
 	public void SpawnGod()
 	{
@@ -198,7 +205,11 @@ public class WaveManager : MonoBehaviour
 		{
 			StartCoroutine(EndWave());
 
-            //ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+            //MageBus = FMODUnity.RuntimeManager.GetBus("Bus:/Enemy/Skeleton/Mage Movem");
+            //MageBus.stopAllEvents(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            
             
             
         }
@@ -238,23 +249,23 @@ public class WaveManager : MonoBehaviour
 		switch (Wave)
 		{
 			case 1:
-				SpawnWave(3, 0, 0, 0);
+				SpawnWave(20, 0, 0, 0);
 				break;
 			case 2:
-				SpawnWave(3, 1, 0, 0);
+				SpawnWave(0, 1, 0, 0);
 				break;
 			case 3:
-				SpawnWave(4, 0, 3, 0);
+				SpawnWave(0, 0, 1, 0);
 				break;
 			case 4:
 				MaxMummies++;
-				SpawnWave(0, 3, 5, 1);
+				SpawnWave(0, 0, 1, 0);
 				break;
 			case 5:
 				SpawnWave(0, 0, 0, 0, true);
-				break;
+                break;
 			case 6:
-				MaxSkeletons++;
+                MaxSkeletons++;
 				MaxMages++;
 				SpawnWave(5, 4, 5, 0);
 				break;
@@ -269,11 +280,11 @@ public class WaveManager : MonoBehaviour
 				SpawnWave(0, 4, 8, 1);
 				break;
 			case 10:
-				MaxMages += 2;
+                MaxMages += 2;
 				SpawnWave(0, 0, 15, 0,true);
 				break;
 			case 11:
-				MaxMummies++;
+                MaxMummies++;
 				MaxSkeletons += 2;
 				SpawnWave(8, 6, 0, 4);
 				break;
@@ -287,21 +298,31 @@ public class WaveManager : MonoBehaviour
 				SpawnWave(0, 0, 10, 2);
 				break;
 			case 15:
-				SpawnWave(24, 0, 0, 6,true);
+                SpawnWave(24, 0, 0, 6,true);
 				break;
 			default:
-				if (Wave % 5 != 0) //not god wave
-					SpawnWave(2 * MaxSkeletons, 2 * MaxMummies, 2 * MaxMages, 2 * MaxGolems);
-				else //God wave
-				{
-					MaxSkeletons++;
-					SpawnWave(0, MaxMummies++, MaxMages++, MaxGolems++, true);
-				}
+                if (Wave % 5 != 0) //not god wave
+                { 
+                    SpawnWave(2 * MaxSkeletons, 2 * MaxMummies, 2 * MaxMages, 2 * MaxGolems);
+                }
+                else //God wave
+                {
+                    MaxSkeletons++;
+                    SpawnWave(0, MaxMummies++, MaxMages++, MaxGolems++, true);
+                }
 				break;
 
 
 		}
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
+        if (_bossWave)
+        {
+            ingamemusicEvent.setParameterByName("Boss Wave", 1f);
+        }
+        else 
+        {
+            ingamemusicEvent.setParameterByName("Boss Wave", 0f);
+        }
     }
 
 }

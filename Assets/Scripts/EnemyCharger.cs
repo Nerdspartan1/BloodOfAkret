@@ -57,8 +57,11 @@ public class EnemyCharger : Enemy
         mummychargeEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.mummycharge);
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(mummychargeEvent, this.transform, GetComponent<Rigidbody>());
         mummychargeEvent.start();
+
         
-	}
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.mummywarrvoice, this.gameObject);
+
+    }
 
 	public void EndCharge()
 	{

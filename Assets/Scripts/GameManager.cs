@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
 	public bool CanPause = false;
 
     public FMOD.Studio.EventInstance menuEvent;
+    FMOD.Studio.Bus MasterBus;
 
 	private void Awake()
 	{
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
         menuEvent.start();
 
+        MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
 
 
         //STOP AND RELEASE IN GAME MUSIC!!! CHANGE DEATH PARAM CHANGE WAVE PARAM
@@ -108,6 +110,8 @@ public class GameManager : MonoBehaviour
         WaveManager.Instance.ingamemusicEvent.setParameterByName("Boss Wave", 0);
         WaveManager.Instance.ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         WaveManager.Instance.ingamemusicEvent.release();
+
+        MasterBus.stopAllEvents(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
         //menuEvent.setParameterByName("Game Start", 0f);
         //menuEvent.start();
