@@ -163,7 +163,8 @@ public class GameManager : MonoBehaviour
 		_mouseLockedInGame = _mouseLocked;
 		FreeMouse();
 
-
+        DesertWandering.Instance.sandstormEvent.setPaused(true);
+        DesertWandering.Instance.intromusicEvent.setPaused(true);
         WaveManager.Instance.ingamemusicEvent.setPaused(true);
 	}
 
@@ -175,6 +176,9 @@ public class GameManager : MonoBehaviour
 		if (_mouseLockedInGame) LockMouse();
 
         FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
+
+        DesertWandering.Instance.sandstormEvent.setPaused(false);
+        DesertWandering.Instance.intromusicEvent.setPaused(false);
         WaveManager.Instance.ingamemusicEvent.setPaused(false);
     }
 
