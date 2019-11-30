@@ -90,7 +90,7 @@ public class WaveManager : MonoBehaviour
 
 	public void StartGame()
 	{
-
+		PlayerPrefs.SetInt("canSkip", 1);
 		SetSky();
 
 		StartCoroutine(StartNextWave());

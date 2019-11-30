@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 	public float MouseSensitivity;
 	public Slider SensitivitySlider;
 
+	public GameObject SkipIntroButton;
+
 	private bool _isPaused;
 	private bool _mouseLocked = true;
 	private bool _mouseLockedInGame;
@@ -44,6 +46,9 @@ public class GameManager : MonoBehaviour
 		ControlsScreen.SetActive(false);
 		CreditsScreen.SetActive(false);
 		TitleScreen.SetActive(true);
+
+		bool canSkip = PlayerPrefs.GetInt("canSkip", 0) == 1;
+		if (!canSkip) SkipIntroButton.SetActive(false);
 
 		menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
         menuEvent.start();
