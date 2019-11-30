@@ -253,17 +253,17 @@ public class WaveManager : MonoBehaviour
 		switch (Wave)
 		{
 			case 1:
-				SpawnWave(1, 1, 1, 1);
+				SpawnWave(3, 0, 0, 0);
 				break;
 			case 2:
-				SpawnWave(1, 0, 0, 0);
+				SpawnWave(3, 1, 0, 0);
 				break;
 			case 3:
-				SpawnWave(1, 0, 0, 0);
+				SpawnWave(4, 0, 3, 0);
 				break;
 			case 4:
 				MaxMummies++;
-				SpawnWave(1, 0, 0, 0);
+				SpawnWave(0, 3, 5, 1);
 				break;
 			case 5:
 				SpawnWave(0, 0, 0, 0, true);
