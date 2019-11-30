@@ -165,8 +165,10 @@ public class GameManager : MonoBehaviour
 		_mouseLockedInGame = _mouseLocked;
 		FreeMouse();
 
-        DesertWandering.Instance.sandstormEvent.setPaused(true);
-        DesertWandering.Instance.intromusicEvent.setPaused(true);
+        var desertWandering = Intro.GetComponent<DesertWandering>();
+        desertWandering.sandstormEvent.setPaused(true);
+        desertWandering.intromusicEvent.setPaused(true);
+       
         WaveManager.Instance.ingamemusicEvent.setPaused(true);
 	}
 
@@ -179,8 +181,10 @@ public class GameManager : MonoBehaviour
 
         FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
 
-        DesertWandering.Instance.sandstormEvent.setPaused(false);
-        DesertWandering.Instance.intromusicEvent.setPaused(false);
+        var desertWandering = Intro.GetComponent<DesertWandering>();
+        desertWandering.sandstormEvent.setPaused(false);
+        desertWandering.intromusicEvent.setPaused(false);
+        
         WaveManager.Instance.ingamemusicEvent.setPaused(false);
     }
 

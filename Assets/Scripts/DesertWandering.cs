@@ -10,8 +10,6 @@ public class DesertWandering : MonoBehaviour
 	public GameObject Pyramid;
 	public GameObject Plane;
 
-    public static DesertWandering Instance;
-
 	private Animator _anim;
 
 	public float DistanceToWanderToGetLost = 100f;
