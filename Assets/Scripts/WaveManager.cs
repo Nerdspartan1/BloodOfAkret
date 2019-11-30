@@ -238,16 +238,68 @@ public class WaveManager : MonoBehaviour
 		switch (Wave)
 		{
 			case 1:
-				SpawnWave(1, 0, 0, 0,false);
+				SpawnWave(3, 0, 0, 0);
 				break;
 			case 2:
-				SpawnWave(0, 1, 0,0);
+				SpawnWave(3, 1, 0, 0);
+				break;
+			case 3:
+				SpawnWave(4, 0, 3, 0);
+				break;
+			case 4:
+				MaxMummies++;
+				SpawnWave(0, 3, 5, 1);
+				break;
+			case 5:
+				SpawnWave(0, 0, 0, 0, true);
+				break;
+			case 6:
+				MaxSkeletons++;
+				MaxMages++;
+				SpawnWave(5, 4, 5, 0);
+				break;
+			case 7:
+				MaxGolems++;
+				SpawnWave(0, 4, 8, 2);
+				break;
+			case 8:
+				SpawnWave(10, 0, 0, 2);
+				break;
+			case 9:
+				SpawnWave(0, 4, 8, 1);
+				break;
+			case 10:
+				MaxMages += 2;
+				SpawnWave(0, 0, 15, 0,true);
+				break;
+			case 11:
+				MaxMummies++;
+				MaxSkeletons += 2;
+				SpawnWave(8, 6, 0, 4);
+				break;
+			case 12:
+				SpawnWave(12, 0, 10, 0);
+				break;
+			case 13:
+				SpawnWave(10, 8, 0, 2);
+				break;
+			case 14:
+				SpawnWave(0, 0, 10, 2);
+				break;
+			case 15:
+				SpawnWave(24, 0, 0, 6,true);
 				break;
 			default:
-				SpawnWave(0, 0, 1,0);
+				if (Wave % 5 != 0) //not god wave
+					SpawnWave(2 * MaxSkeletons, 2 * MaxMummies, 2 * MaxMages, 2 * MaxGolems);
+				else //God wave
+				{
+					MaxSkeletons++;
+					SpawnWave(0, MaxMummies++, MaxMages++, MaxGolems++, true);
+				}
 				break;
 
-                //Debug.Log(Wave);
+
 		}
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
     }

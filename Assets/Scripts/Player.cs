@@ -136,7 +136,6 @@ public class Player : vp_FPPlayerDamageHandler
 		Perks.Add(perk);
 
 		
-
 		switch (perk.Name)
 		{
 			case "Heal":
@@ -214,10 +213,5 @@ public class Player : vp_FPPlayerDamageHandler
 				throw new System.Exception("Perk not recognized");
 		}
 		
-		
-
-
 	}
-
-
 }
