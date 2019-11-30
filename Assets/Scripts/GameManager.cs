@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.U) && CanPause)
+		if (Input.GetKeyDown(KeyCode.Escape) && CanPause)
 		{
 			if (!_isPaused) Pause();
 			else Unpause();
@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
 		Player.SetActive(true);
 		Intro.GetComponent<DesertWandering>().PlayIntro();
 		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 		RenderSettings.fogDensity = 0.08f;
        
         menuEvent.setParameterByName("Game Start", 1f);
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
 		Game.SetActive(true);
 		
 		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 		CanPause = true;
 		RenderSettings.fogDensity = 0.08f;
 		Game.GetComponent<WaveManager>().StartGame();
