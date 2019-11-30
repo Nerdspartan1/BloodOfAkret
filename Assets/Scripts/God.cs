@@ -16,7 +16,7 @@ public class God : EnemyMage
 	public GameObject AoEProjectile;
 	public GameObject LongRangeProjectile;
 
-	public new GameObject DeathEffect;
+	public GameObject DeathParticleEffect;
 
 
 	public enum Phase
@@ -125,7 +125,7 @@ public class God : EnemyMage
 		
 		if (_disintegrate) _disintegrate.enabled = true;
 
-		var effect = Instantiate(DeathEffect, transform.position, Quaternion.identity);
+		var effect = Instantiate(DeathParticleEffect, transform.position, Quaternion.identity);
 		StartCoroutine(SpinCoroutine());
 		Destroy(effect);
 
