@@ -80,7 +80,8 @@ public class GameManager : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		RenderSettings.fogDensity = 0.08f;
-       
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
         menuEvent.setParameterByName("Game Start", 1f);
     }
 
@@ -96,6 +97,8 @@ public class GameManager : MonoBehaviour
 		CanPause = true;
 		RenderSettings.fogDensity = 0.08f;
 		Game.GetComponent<WaveManager>().StartGame();
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
 
         //menuEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //menuEvent.release();
@@ -124,13 +127,17 @@ public class GameManager : MonoBehaviour
 	{
 		ControlsScreen.SetActive(true);
 		TitleScreen.SetActive(false);
-	}
+        
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
+    }
 
 	public void OpenCredits()
 	{
 		CreditsScreen.SetActive(true);
 		TitleScreen.SetActive(false);
-	}
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
+    }
 
 
 	public void BackToTitleScreen()
@@ -138,12 +145,15 @@ public class GameManager : MonoBehaviour
 		ControlsScreen.SetActive(false);
 		CreditsScreen.SetActive(false);
 		TitleScreen.SetActive(true);
+
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
     }
 
 	public void Quit()
 	{
 		Application.Quit();
-	}
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
+    }
 
 	public void Pause()
 	{
@@ -152,6 +162,7 @@ public class GameManager : MonoBehaviour
 		PauseMenu.SetActive(true);
 		_mouseLockedInGame = _mouseLocked;
 		FreeMouse();
+
 
         WaveManager.Instance.ingamemusicEvent.setPaused(true);
 	}
@@ -163,6 +174,7 @@ public class GameManager : MonoBehaviour
 		PauseMenu.SetActive(false);
 		if (_mouseLockedInGame) LockMouse();
 
+        FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
         WaveManager.Instance.ingamemusicEvent.setPaused(false);
     }
 
