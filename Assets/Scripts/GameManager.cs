@@ -41,9 +41,11 @@ public class GameManager : MonoBehaviour
 	void Start()
     {
 		Menu.SetActive(true);
-		BackToTitleScreen();
+		ControlsScreen.SetActive(false);
+		CreditsScreen.SetActive(false);
+		TitleScreen.SetActive(true);
 
-        menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
+		menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
         menuEvent.start();
 
         MasterBus = FMODUnity.RuntimeManager.GetBus("Bus:/");
@@ -95,7 +97,7 @@ public class GameManager : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		CanPause = true;
-		RenderSettings.fogDensity = 0.08f;
+		
 		Game.GetComponent<WaveManager>().StartGame();
 
         FMODUnity.RuntimeManager.PlayOneShot("event:/UI/UI click");
