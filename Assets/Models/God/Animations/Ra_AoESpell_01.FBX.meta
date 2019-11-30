@@ -66,6 +66,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 25
         messageOptions: 0
+      - time: 0.14563107
+        functionName: PlayBossUlt
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 25
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
