@@ -18,6 +18,8 @@ public class God : EnemyMage
 
 	public GameObject DeathParticleEffect;
 
+	public GameObject Wings;
+
 	public enum Phase
 	{
 		Circling,
@@ -29,7 +31,7 @@ public class God : EnemyMage
 	protected override void Start()
 	{
 		base.Start();
-		MaxHealth = 75 * WaveManager.GodsSlain*25;
+		MaxHealth = 75 + WaveManager.GodsSlain*25;
 		CurrentHealth = MaxHealth;
 	}
 
@@ -124,6 +126,7 @@ public class God : EnemyMage
 
 	public override void Die()
 	{
+		Wings.SetActive(false);
 
 		_anim.SetBool("dead", true);
 		this.enabled = false;

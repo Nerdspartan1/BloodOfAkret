@@ -206,6 +206,28 @@ public class Player : vp_FPPlayerDamageHandler
 					_inventory.SetUnitCount(MachinegunAmmo, 5 * Machinegun.Capacity);
 				}
 				break;
+			case "Weapon III":
+				if (!_hasMachinegun)
+				{
+					_inventory.TryGiveUnitBank(Machinegun, Machinegun.Capacity, 0);
+					_inventory.TryGiveUnits(MachinegunAmmo, int.MaxValue);
+					_hasMachinegun = true;
+				}
+				else
+				{
+					_inventory.SetUnitCount(MachinegunAmmo, int.MaxValue);
+				}
+				if (!_hasRifle)
+				{
+					_inventory.TryGiveUnitBank(Rifle, Rifle.Capacity, 0);
+					_inventory.TryGiveUnits(RifleAmmo, int.MaxValue);
+					_hasRifle = true;
+				}
+				else
+				{
+					_inventory.SetUnitCount(RifleAmmo, int.MaxValue);
+				}
+				break;
 			case "Blessing":
 				PlayerPrefs.SetInt("bonusMaxHealth", PlayerPrefs.GetInt("bonusMaxHealth",0) + 5);
 				break;
