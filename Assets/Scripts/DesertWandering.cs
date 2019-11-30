@@ -19,10 +19,11 @@ public class DesertWandering : MonoBehaviour
 
 	private float _time;
 	private bool _lostInDesert;
+    private bool _intromusicStarted;
 
     public FMOD.Studio.EventInstance sandstormEvent;
-    
 
+    public FMOD.Studio.EventInstance intromusicEvent;
 
 	private void Awake()
 	{
@@ -54,6 +55,13 @@ public class DesertWandering : MonoBehaviour
 			}
 			_time += Time.deltaTime;
 		}
+
+        if (!_intromusicStarted && Vector3.Distance(Player.transform.position, this.gameObject.transform.position) > 35f)
+        {
+            intromusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.intro);
+            intromusicEvent.start();
+            _intromusicStarted = true;
+        }
 	}
 
 	public void MovePyramidInFrontOfPlayer()

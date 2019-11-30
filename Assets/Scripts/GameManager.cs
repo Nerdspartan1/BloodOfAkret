@@ -91,7 +91,9 @@ public class GameManager : MonoBehaviour
 	public void ResetGame()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-	}
+        //menuEvent.setParameterByName("Game Start", 0f);
+        //menuEvent.start();
+    }
 
 	public void OpenControls()
 	{
@@ -111,11 +113,6 @@ public class GameManager : MonoBehaviour
 		ControlsScreen.SetActive(false);
 		CreditsScreen.SetActive(false);
 		TitleScreen.SetActive(true);
-
-        //WaveManager.Instance.ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        //WaveManager.Instance.ingamemusicEvent.release();
-        menuEvent.setParameterByName("Game Start", 0f);
-        menuEvent.start();
     }
 
 	public void Quit()

@@ -28,7 +28,7 @@ public class PyramidEntering : MonoBehaviour
 
             //set float to 0.5 for ambience inside pyramid or 1 to stop it
             
-            //IntroMusicTrigger.intromusicEvent.setParameterByName("Inside Pyramid", 0.5f);
+            desertWandering.intromusicEvent.setParameterByName("Inside Pyramid", 0.5f);
 
             Desert.SetActive(false);
 			Door.SetActive(true);
@@ -52,10 +52,10 @@ public class PyramidEntering : MonoBehaviour
 				weapon.SetState("Idle", false);
 				weapon.GetComponent<vp_WeaponShooter>().enabled = true;
 			}
-            //var desertWandering = GameManager.Instance.Intro.GetComponent<DesertWandering>();
-            //desertWandering.intromusicEvent.setParameterByName("Inside Pyramid", 1f);
-            //desertWandering.intromusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            //desertWandering.intromusicEvent.release();
+            var desertWandering = GameManager.Instance.Intro.GetComponent<DesertWandering>();
+            desertWandering.intromusicEvent.setParameterByName("Inside Pyramid", 1f);
+            desertWandering.intromusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            desertWandering.intromusicEvent.release();
 
 			GameManager.Instance.Game.GetComponent<WaveManager>().StartGame();
 			GameManager.Instance.Intro.SetActive(false);
