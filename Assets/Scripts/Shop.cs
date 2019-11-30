@@ -32,8 +32,12 @@ public class Shop : MonoBehaviour
 	[Range(0, 1)]
 	public float LegendaryProbability_BossLoot;
 
+	public GameObject Heal;
+
 	public void PresentPerks(bool bossLoot)
 	{
+		if (WaveManager.Instance.Wave >= 16) Heal.SetActive(false);
+
 		List<Perk> randomPerks = new List<Perk>(UnlockedPerks);
 		randomPerks.RandomizeList();
 

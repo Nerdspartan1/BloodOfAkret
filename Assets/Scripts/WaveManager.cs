@@ -305,28 +305,17 @@ public class WaveManager : MonoBehaviour
                 SpawnWave(24, 0, 0, 6,true);
 				break;
 			default:
-                if (Wave % 5 != 0) //not god wave
-                { 
-                    SpawnWave(2 * MaxSkeletons, 2 * MaxMummies, 2 * MaxMages, 2 * MaxGolems);
-                }
-                else //God wave
-                {
-                    MaxSkeletons++;
-                    SpawnWave(0, MaxMummies++, MaxMages++, MaxGolems++, true);
-                }
+
+                SpawnWave(MaxSkeletons++, MaxMummies++, MaxMages++, MaxGolems++, true);
+
 				break;
 
 
 		}
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
-        if (_bossWave)
-        {
-            ingamemusicEvent.setParameterByName("Boss Wave", 1f);
-        }
-        else 
-        {
-            ingamemusicEvent.setParameterByName("Boss Wave", 0f);
-        }
+
+        ingamemusicEvent.setParameterByName("Boss Wave", _bossWave ? 1f : 0f);
+
     }
 
 }
