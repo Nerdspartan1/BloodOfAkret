@@ -113,7 +113,9 @@ public class Player : vp_FPPlayerDamageHandler
 		_collider.enabled = false;
 		this.enabled = false;
 
-		GameOverScreen.SetActive(true);
+        WaveManager.Instance.ingamemusicEvent.setParameterByName("Death", 1f);
+
+        GameOverScreen.SetActive(true);
 	}
 
 

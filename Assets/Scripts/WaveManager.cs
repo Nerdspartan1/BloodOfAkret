@@ -84,11 +84,15 @@ public class WaveManager : MonoBehaviour
 
         ingamemusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.music);
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
-        ingamemusicEvent.start();
+        //ingamemusicEvent.start();
+        //Debug.Log("Wave started");
 	}
 
 	public void SpawnWave(int skeletons, int mummies, int mages, int golems, bool god = false)
 	{
+
+        ingamemusicEvent.start();
+
 		_forceEndWave = false;
 		_remainingSkeletons = skeletons;
 		_remainingMummies = mummies;

@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
         menuEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.menu);
         menuEvent.start();
 
+
+
         //STOP AND RELEASE IN GAME MUSIC!!! CHANGE DEATH PARAM CHANGE WAVE PARAM
 
 		Player.SetActive(false);
@@ -91,6 +93,13 @@ public class GameManager : MonoBehaviour
 	public void ResetGame()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        WaveManager.Instance.ingamemusicEvent.setParameterByName("Wave Prog", 0f);
+        WaveManager.Instance.ingamemusicEvent.setParameterByName("Death", 0);
+        WaveManager.Instance.ingamemusicEvent.setParameterByName("Boss Wave", 0);
+        WaveManager.Instance.ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        WaveManager.Instance.ingamemusicEvent.release();
+
         //menuEvent.setParameterByName("Game Start", 0f);
         //menuEvent.start();
     }
