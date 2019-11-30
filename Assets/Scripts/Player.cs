@@ -34,6 +34,8 @@ public class Player : vp_FPPlayerDamageHandler
 	private float _baseDamping;
 	private float _baseJumpForce;
 
+	private float _mouseSensitivity = 5f;
+
 	[HideInInspector]
 	public vp_FPWeaponShooter[] _shooters;
 
@@ -41,6 +43,13 @@ public class Player : vp_FPPlayerDamageHandler
 	{
 		_shooters = GetComponentsInChildren<vp_FPWeaponShooter>();
 		base.Awake();
+	}
+
+	public void SetSensitivity(float sensitivity)
+	{
+		_mouseSensitivity = sensitivity;
+		_input.MouseLookSensitivity = sensitivity * Vector2.one;
+		PlayerPrefs.SetFloat("sensitivity", sensitivity);
 	}
 
 	private void Start()
@@ -92,6 +101,8 @@ public class Player : vp_FPPlayerDamageHandler
 		if (Input.GetKeyDown(KeyCode.C)) PerkUp(new Perk { Name = "Weapon II" });
 
 		HealthCounter.text = $"{CurrentHealth}";
+
+		_input.MouseLookSensitivity = _mouseSensitivity * Vector2.one;
 
 		if(transform.position.y < -70) //fell in void
 		{

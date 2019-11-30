@@ -66,11 +66,12 @@ public class WaveManager : MonoBehaviour
 		EnemiesKilled = 0;
 		GodsSlain = 0;
 		Instance = this;
-        _player = GameManager.Instance.Player.GetComponent<Player>();
+        
     }
 
 	void Start()
     {
+		_player = GameManager.Instance.Player.GetComponent<Player>();
 		Shop.gameObject.SetActive(false);
 		Points = 0;
     }

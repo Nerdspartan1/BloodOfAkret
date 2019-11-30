@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour
 	public GameObject TitleScreen;
 	public GameObject ControlsScreen;
 	public GameObject CreditsScreen;
+
+	public float MouseSensitivity;
+	public Slider SensitivitySlider;
 
 	private bool _isPaused;
 	private bool _mouseLocked = true;
@@ -50,7 +54,9 @@ public class GameManager : MonoBehaviour
 		Game.SetActive(false);
 		PauseMenu.SetActive(false);
 		RenderSettings.fogDensity = 0.002f;
-    }
+
+		SensitivitySlider.value = PlayerPrefs.GetFloat("sensitivity", 5f);
+	}
 
 	private void Update()
 	{
@@ -78,8 +84,9 @@ public class GameManager : MonoBehaviour
 	{
 		Menu.SetActive(false);
 		Player.transform.position = GameSpawnLocation.transform.position;
-		Game.SetActive(true);
 		Player.SetActive(true);
+		Game.SetActive(true);
+		
 		Cursor.lockState = CursorLockMode.Locked;
 		CanPause = true;
 		RenderSettings.fogDensity = 0.08f;
@@ -92,9 +99,11 @@ public class GameManager : MonoBehaviour
 
 	public void ResetGame()
 	{
+		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		
 
-        WaveManager.Instance.ingamemusicEvent.setParameterByName("Wave Prog", 0f);
+		WaveManager.Instance.ingamemusicEvent.setParameterByName("Wave Prog", 0f);
         WaveManager.Instance.ingamemusicEvent.setParameterByName("Death", 0);
         WaveManager.Instance.ingamemusicEvent.setParameterByName("Boss Wave", 0);
         WaveManager.Instance.ingamemusicEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
