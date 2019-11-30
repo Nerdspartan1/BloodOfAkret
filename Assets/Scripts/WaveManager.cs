@@ -94,8 +94,8 @@ public class WaveManager : MonoBehaviour
 		SetSky();
 
 		StartCoroutine(StartNextWave());
-
-        GameManager.Instance.menuEvent.setParameterByName("Game Start", 1f);
+		RenderSettings.fogDensity = 0.02f;
+		GameManager.Instance.menuEvent.setParameterByName("Game Start", 1f);
 
         ingamemusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.music);
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
