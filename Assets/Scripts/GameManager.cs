@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
 		RenderSettings.fogDensity = 0.002f;
 
 		SensitivitySlider.value = PlayerPrefs.GetFloat("sensitivity", 5f);
+		
 	}
 
 	private void Update()

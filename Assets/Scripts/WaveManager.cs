@@ -177,15 +177,19 @@ public class WaveManager : MonoBehaviour
 		}
 		else if (who is God)
 		{
-			_remainingGolems = 0;
-			_remainingMages = 0;
-			_remainingSkeletons = 0;
-			_remainingMummies = 0;
 			_remainingBoss = false;
-			_forceEndWave = true;
-			foreach (var enemy in GameManager.Instance.Game.GetComponentsInChildren<Enemy>())
+			if (Wave <= 15)
 			{
-				enemy.Die();
+				_remainingGolems = 0;
+				_remainingMages = 0;
+				_remainingSkeletons = 0;
+				_remainingMummies = 0;
+				
+				_forceEndWave = true;
+				foreach (var enemy in GameManager.Instance.Game.GetComponentsInChildren<Enemy>())
+				{
+					enemy.Die();
+				}
 			}
 			GodsSlain++;
 		}
@@ -249,17 +253,17 @@ public class WaveManager : MonoBehaviour
 		switch (Wave)
 		{
 			case 1:
-				SpawnWave(20, 0, 0, 0);
+				SpawnWave(3, 0, 0, 0);
 				break;
 			case 2:
-				SpawnWave(0, 1, 0, 0);
+				SpawnWave(3, 1, 0, 0);
 				break;
 			case 3:
-				SpawnWave(0, 0, 1, 0);
+				SpawnWave(4, 0, 3, 0);
 				break;
 			case 4:
 				MaxMummies++;
-				SpawnWave(0, 0, 1, 0);
+				SpawnWave(0, 3, 3, 1);
 				break;
 			case 5:
 				SpawnWave(0, 0, 0, 0, true);

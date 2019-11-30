@@ -18,7 +18,6 @@ public class God : EnemyMage
 
 	public GameObject DeathParticleEffect;
 
-
 	public enum Phase
 	{
 		Circling,
@@ -26,6 +25,13 @@ public class God : EnemyMage
 	}
 
 	public Phase CurrentPhase = Phase.Center;
+
+	protected override void Start()
+	{
+		base.Start();
+		MaxHealth = 75 * WaveManager.GodsSlain*25;
+		CurrentHealth = MaxHealth;
+	}
 
 	protected override void Update()
 	{
