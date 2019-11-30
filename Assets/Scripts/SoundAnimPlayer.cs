@@ -113,5 +113,8 @@ public class SoundAnimPlayer : MonoBehaviour
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.bossult, this.gameObject);
     }
-
+    void PlayBossMov()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(SoundManager.sm.bossmov, this.gameObject);
+    }
 }

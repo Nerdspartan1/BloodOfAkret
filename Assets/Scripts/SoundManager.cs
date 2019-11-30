@@ -84,6 +84,8 @@ public class SoundManager : MonoBehaviour
     [Header("Enemy Boss")]
     [FMODUnity.EventRef]
     public string bossult;
+    [FMODUnity.EventRef]
+    public string bossmov;
 
 
     void Awake()
