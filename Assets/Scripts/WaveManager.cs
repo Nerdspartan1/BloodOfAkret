@@ -75,6 +75,7 @@ public class WaveManager : MonoBehaviour
 		_player = GameManager.Instance.Player.GetComponent<Player>();
 		Shop.gameObject.SetActive(false);
 		Points = 0;
+		_player.HUD.SetActive(false);
     }
 
 	public void SetSky()
@@ -99,6 +100,8 @@ public class WaveManager : MonoBehaviour
 
         ingamemusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.music);
         ingamemusicEvent.setParameterByName("Wave Prog", Wave);
+
+		_player.HUD.SetActive(true);
 	}
 
 	public void SpawnWave(int skeletons, int mummies, int mages, int golems, bool god = false)

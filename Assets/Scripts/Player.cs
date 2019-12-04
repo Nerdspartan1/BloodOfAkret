@@ -29,6 +29,7 @@ public class Player : vp_FPPlayerDamageHandler
 	private int _nbOfCamera = 1;
 
 	public GameObject GameOverScreen;
+	public GameObject HUD;
 	public Text HealthCounter;
 
 	private float _baseDamping;
@@ -128,6 +129,7 @@ public class Player : vp_FPPlayerDamageHandler
         WaveManager.Instance.ingamemusicEvent.setParameterByName("Death", 1f);
 
         GameOverScreen.SetActive(true);
+		HUD.SetActive(false);
 	}
 
 
