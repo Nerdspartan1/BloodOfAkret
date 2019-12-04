@@ -22,7 +22,7 @@ public class GameOver : MonoBehaviour
 				Comment.text = "The gods are impressed by your fights"; break;
 			case 3:
 				Comment.text = "The gods are concerned about your power"; break;
-			case 4:
+			default:
 				Comment.text = "The gods fear you"; break;
 		}
 	}
