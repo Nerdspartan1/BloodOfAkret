@@ -5,21 +5,20 @@ using UnityEngine;
 public class DesertWandering : MonoBehaviour
 {
 	public GameObject Player;
-	public GameObject DesertPlane;
 	public GameObject Sandstorm;
 	public GameObject Pyramid;
 	public GameObject Plane;
 
 	private Animator _anim;
 
-	public float DistanceToWanderToGetLost = 100f;
-	public float PyramidMovePeriod = 10f;
 	public float PyramidToPlayerMoveDistance = 100f;
 	public float PyramidMaxSpawnDistance = 1200f;
 
 	private float _time;
 	private bool _lostInDesert;
-    private bool _intromusicStarted;
+    private bool _musicStarted;
+
+	private float _nextPyramidMoveTime;
 
     public FMOD.Studio.EventInstance sandstormEvent;
 
@@ -27,7 +26,6 @@ public class DesertWandering : MonoBehaviour
 
 	private void Awake()
 	{
-		_time = 0f;
 		_lostInDesert = false;
 		_anim = GetComponent<Animator>();
 
@@ -35,8 +33,16 @@ public class DesertWandering : MonoBehaviour
 
 	public void Update()
 	{
+
+		if (!_musicStarted && Vector3.Distance(Player.transform.position, this.gameObject.transform.position) > 10f)
+		{
+			intromusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.intro);
+			intromusicEvent.start();
+			_musicStarted = true;
+		}
+
 		Sandstorm.transform.position = Player.transform.position + new Vector3(0, 3, -10);
-		if (!_lostInDesert && Vector3.Distance(Player.transform.position, Plane.transform.position) > DistanceToWanderToGetLost)
+		if (!_lostInDesert && Vector3.Distance(Player.transform.position, Plane.transform.position) > 150f)
 		{
 			_lostInDesert = true;
 			Plane.SetActive(false);
@@ -45,23 +51,17 @@ public class DesertWandering : MonoBehaviour
 
 		if (_lostInDesert)
 		{
-			if (_time > PyramidMovePeriod)
+			if (Time.time >= _nextPyramidMoveTime)
 			{
 				if(Vector3.Distance(Player.transform.position, Pyramid.transform.position) > PyramidToPlayerMoveDistance
 					&& (Mathf.Abs(Player.transform.position.x) < PyramidMaxSpawnDistance
 					&& Mathf.Abs(Player.transform.position.z) < PyramidMaxSpawnDistance) )
 					MovePyramidInFrontOfPlayer();
-				_time = 0f;
+				_nextPyramidMoveTime = Time.time + 10f;
 			}
-			_time += Time.deltaTime;
 		}
 
-        if (!_intromusicStarted && Vector3.Distance(Player.transform.position, this.gameObject.transform.position) > 35f)
-        {
-            intromusicEvent = FMODUnity.RuntimeManager.CreateInstance(SoundManager.sm.intro);
-            intromusicEvent.start();
-            _intromusicStarted = true;
-        }
+
 	}
 
 	public void MovePyramidInFrontOfPlayer()
