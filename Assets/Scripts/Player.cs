@@ -32,8 +32,8 @@ public class Player : vp_FPPlayerDamageHandler
 	public GameObject HUD;
 	public Text HealthCounter;
 
-	private float _baseDamping;
-	private float _baseJumpForce;
+	private float _damping;
+	private float _jumpForce;
 
 	private float _mouseSensitivity = 5f;
 
@@ -62,8 +62,8 @@ public class Player : vp_FPPlayerDamageHandler
 		_collider = GetComponent<Collider>();
 		_input = GetComponent<vp_FPInput>();
 		_weaponHandler = GetComponent<vp_FPWeaponHandler>();
-		_baseDamping = _controller.MotorDamping;
-		_baseJumpForce = _controller.MotorJumpForce;
+		_damping = _controller.MotorDamping;
+		_jumpForce = _controller.MotorJumpForce;
 		_inventory = GetComponent<vp_PlayerInventory>();
 		_inventory.TryGiveUnits(PistolAmmo,int.MaxValue);
 		Head.isKinematic = true;
@@ -98,12 +98,14 @@ public class Player : vp_FPPlayerDamageHandler
 	protected override void Update()
 	{
 		base.Update();
-		//if (Input.GetKeyDown(KeyCode.T)) WaveManager.Instance.Points += 10000;
+		//if (Input.GetKeyDown(KeyCode.T)) PerkUp(new Perk { Name = "Grace of Bastet III" });
 		//if (Input.GetKeyDown(KeyCode.C)) PerkUp(new Perk { Name = "Weapon II" });
 
 		HealthCounter.text = $"{CurrentHealth}";
 
 		_input.MouseLookSensitivity = _mouseSensitivity * Vector2.one;
+		_controller.MotorDamping = _damping;
+		_controller.MotorJumpForce = _jumpForce;
 
 		if(transform.position.y < -70) //fell in void
 		{
@@ -145,16 +147,16 @@ public class Player : vp_FPPlayerDamageHandler
 				CurrentHealth = MaxHealth;
 				break;
 			case "Grace of Bastet":
-				_controller.MotorDamping *= 0.90f;
-				_controller.MotorJumpForce *= 1.10f;
+				_damping *= 0.90f;
+				_jumpForce *= 1.10f;
 				break;
 			case "Grace of Bastet II":
-				_controller.MotorDamping *= 0.80f;
-				_controller.MotorJumpForce *= 1.20f;
+				_damping *= 0.80f;
+				_jumpForce *= 1.20f;
 				break;
 			case "Grace of Bastet III":
-				_controller.MotorDamping *= 0.70f;
-				_controller.MotorJumpForce *= 1.30f;
+				_damping *= 0.70f;
+				_jumpForce *= 1.30f;
 				break;
 			case "Frenesy":
 				foreach (var shooter in _shooters)
